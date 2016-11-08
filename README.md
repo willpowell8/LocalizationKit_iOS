@@ -22,7 +22,7 @@ pod "LocalizationKit"
 
 ## Author
 
-Will Powell, willpowell8@gmail.com
+Will Powell
 
 ## License
 
