@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        LocalizationKit.start(appKey: "131fcdeb-cd66-4372-9cc8-702622c3efe6")
+        Localization.start(appKey: "131fcdeb-cd66-4372-9cc8-702622c3efe6")
         // Override point for customization after application launch.
         return true
     }

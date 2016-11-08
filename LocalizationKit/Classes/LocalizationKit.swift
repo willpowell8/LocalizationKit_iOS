@@ -9,9 +9,9 @@
 import Foundation
 import SocketIO
 
-public class LocalizationKit {
+public class Localization {
     
-    public static var server:String = "http://10.150.30.48:3000"//"http://178.62.96.76:3000";//"http://192.168.0.5:3000";//"http://178.62.96.76:3000";
+    public static var server:String = "http://10.0.1.33:3000"//"http://178.62.96.76:3000";//"http://192.168.0.5:3000";//"http://178.62.96.76:3000";
     
     public static var bundle:Bundle?
     public static var languageCode:String?
@@ -37,7 +37,7 @@ public class LocalizationKit {
     private static func loadLanguage(key:String){
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Language.server+"/api/app/\((self.appKey)!)/language/\(key)"
+        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(key)"
         let url = URL(string: urlString as String)
         session.dataTask(with: url!) {
             (data, response, error) in
@@ -47,7 +47,7 @@ public class LocalizationKit {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     loadedLanguageTranslations = json?["data"] as! [AnyHashable:String];
                     self.joinLanguageRoom()
-                    NotificationCenter.default.post(name: ALL_CHANGE, object: self)
+                    NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
                     
                 } catch {
                     print("error serializing JSON: \(error)")

@@ -8,19 +8,11 @@
 
 import UIKit
 
-class LangUILabel: UILabel {
+class LocUILabel: UILabel {
     
     private var _locLabel:String?
     
-    @IBInspectable public var locLabel:String? {
-        get {
-            return _locLabel
-        }
-        set {
-            _locLabel = newValue;
-            updateLocalisation()
-        }
-    }
+    
 
     /*
     // Only override draw() if you perform custom drawing.
@@ -46,16 +38,25 @@ class LangUILabel: UILabel {
     }
     
     func setup(){
-        NotificationCenter.default.addObserver(self, selector: #selector(LangUILabel.updateFromNotification), name: Language.ALL_CHANGE, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Localization.ALL_CHANGE, object: nil)
         let eventHighlight = "LOC_HIGHLIGHT_\(_locLabel!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(LangUILabel.highlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(highlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
         let eventText = "LOC_TEXT_\(_locLabel!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(LangUILabel.updateFromNotification), name: NSNotification.Name(rawValue:eventText), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: NSNotification.Name(rawValue:eventText), object: nil)
         
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    @IBInspectable public var locLabel:String? {
+        get {
+            return _locLabel
+        }
+        set {
+            _locLabel = newValue;
+            updateLocalisation()
+        }
     }
     
     
@@ -97,14 +98,13 @@ class LangUILabel: UILabel {
         if (self.text != nil){
             self.locLabel = self.text
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(LangUILabel.updateFromNotification), name: NSNotification.Name(rawValue:"LOCALIZATION_CHANGED"), object: nil)
         setup()
         
     }
     
     func updateLocalisation() {
         if ((self._locLabel?.isEmpty) != nil)  {
-            var languageString = LocalizationKit.get(self._locLabel!, alternate:self._locLabel!)
+            var languageString = Localization.get(self._locLabel!, alternate:self._locLabel!)
             /*if self.uppercased == true {
                 languageString = languageString.uppercased()
             }*/

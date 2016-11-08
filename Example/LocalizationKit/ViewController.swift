@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LocalizationKit
 
 class ViewController: UIViewController {
 
@@ -18,6 +19,14 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func changeLanguageFrench(_ sender:AnyObject){
+        Localization.setLanguage("fr")
+    }
+    
+    @IBAction func changeLanguageEnglish(_ sender:AnyObject){
+        Localization.setLanguage("en")
     }
 
 }
