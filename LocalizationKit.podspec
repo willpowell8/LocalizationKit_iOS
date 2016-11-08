@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'http://github.com/<GITHUB_USERNAME>/LocalizationKit'
+  s.homepage         = 'https://github.com/willpowell8/LocalizationKit_iOS'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Will Powell' => '' }
-  s.source           = { :git => 'https://github.com/willpowell8/LocalizationKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/willpowell8/LocalizationKit_iOS.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/willpowelluk'
 
   s.ios.deployment_target = '8.0'
