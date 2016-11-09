@@ -11,7 +11,7 @@ import SocketIO
 
 public class Localization {
     
-    public static var server:String = "http://www.localizationkit.com:3000";
+    public static var server:String = "http://www.localizationkit.com";
     
     public static var bundle:Bundle?
     public static var languageCode:String?
