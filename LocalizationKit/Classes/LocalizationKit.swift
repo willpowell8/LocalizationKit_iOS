@@ -34,10 +34,26 @@ public class Localization {
         
     }
     
-    private static func loadLanguage(key:String){
+    public static func saveLanguageToDisk(code:String, translation:[AnyHashable:String]){
+        let standard = UserDefaults.standard;
+        standard.set(translation, forKey: "\(self.appKey!)_\(code)");
+        standard.synchronize()
+    }
+    
+    public static func loadLanguageFromDisk(code:String){
+        let standard = UserDefaults.standard
+        guard let data = standard.object(forKey: "\(self.appKey!)_\(code)") else {
+            return
+        }
+        self.loadedLanguageTranslations = data as! [AnyHashable : String];
+        NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
+    }
+    
+    private static func loadLanguage(code:String){
+        self.loadLanguageFromDisk(code: code);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(key)"
+        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(code)"
         let url = URL(string: urlString as String)
         session.dataTask(with: url!) {
             (data, response, error) in
@@ -46,6 +62,7 @@ public class Localization {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     loadedLanguageTranslations = json?["data"] as! [AnyHashable:String];
+                    saveLanguageToDisk(code: code, translation: self.loadedLanguageTranslations!);
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
                     
@@ -120,7 +137,7 @@ public class Localization {
     public static func setLanguage(_ language:String){
         if languageCode != language {
             languageCode = language
-            loadLanguage(key: language);
+            loadLanguage(code: language);
             //NotificationCenter.default.post(name: Notification.Name(rawValue: "LOCALIZATION_CHANGED"), object: self)
         }
     }
