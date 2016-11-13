@@ -20,6 +20,7 @@ extension UINavigationItem {
         }
         set(newValue) {
             objc_setAssociatedObject(self, &localizationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            updateLocalisation()
             setup();
         }
     }
