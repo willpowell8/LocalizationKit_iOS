@@ -58,7 +58,6 @@ public class Localization {
         session.dataTask(with: url!) {
             (data, response, error) in
             if (response as? HTTPURLResponse) != nil {
-                let dataString = String(data: data!, encoding: .utf8)
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     loadedLanguageTranslations = json?["data"] as! [AnyHashable:String];
@@ -99,7 +98,7 @@ public class Localization {
             NotificationCenter.default.post(name: ALL_CHANGE, object: self)
         })
         socket?.on("languages", callback: {(data,ack) in
-            let dictionary = data[0] as! [AnyHashable : Any]
+            //let dictionary = data[0] as! [AnyHashable : Any]
         })
         socket?.on("highlight", callback: {(data,ack) in
             let dictionary = data[0] as! [AnyHashable : Any]

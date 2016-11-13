@@ -8,35 +8,23 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LocalizationKit'
-  s.version          = '0.1.0'
-  s.summary          = 'iOS Localization made easy and in realtime.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.version          = '0.0.1'
+  s.summary          = 'iOS Localization made easy. Manage your texts and translations in realtime to support multi lingual deployment.'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+LocalizationKit is the easiest way to manage your texts and translations. It removes the need to recompile and redeploy an app or website to support new languages and texts.
                        DESC
 
   s.homepage         = 'https://github.com/willpowell8/LocalizationKit_iOS'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Will Powell' => '' }
-  s.source           = { :git => 'https://github.com/willpowell8/LocalizationKit_iOS.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/willpowell8/LocalizationKit_iOS.git', :tag => s.version }
   s.social_media_url = 'https://twitter.com/willpowelluk'
 
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'LocalizationKit/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'LocalizationKit' => ['LocalizationKit/Assets/*.png']
-  # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
   s.dependency 'Socket.IO-Client-Swift', '~>8.1.1'
 end
