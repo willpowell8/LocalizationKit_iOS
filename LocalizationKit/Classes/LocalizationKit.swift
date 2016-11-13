@@ -135,7 +135,7 @@ public class Localization {
         guard let localisation = loadedLanguageTranslations?[key] else {
             if languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
-                self.sendMessage(type: "key", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!])
+                self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!])
             }
             return key;
         }
