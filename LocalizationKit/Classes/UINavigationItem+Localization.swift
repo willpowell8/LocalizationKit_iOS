@@ -1,5 +1,5 @@
 //
-//  UILabel+Localization.swift
+//  NavigationItem+Localization.swift
 //  Pods
 //
 //  Created by Will Powell on 13/11/2016.
@@ -8,10 +8,11 @@
 
 import Foundation
 import ObjectiveC
+import UIKit
 
-private var localizationKey: UInt8 = 0
+private var localizationKey: UInt8 = 1
 
-extension UILabel{
+extension UINavigationItem {
     @IBInspectable
     public var LocalizeKey: String? {
         get {
@@ -47,18 +48,18 @@ extension UILabel{
     
     
     public func highlight() {
-        DispatchQueue.main.async(execute: {
+        /*DispatchQueue.main.async(execute: {
             let originalCGColor = self.layer.backgroundColor
             UIView.animate(withDuration: 0.4, animations: {
                 self.layer.backgroundColor = UIColor.red.cgColor
-                }, completion: { (okay) in
-                    UIView.animate(withDuration: 0.4, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-                        self.layer.backgroundColor = originalCGColor
-                        }, completion: { (complete) in
-                            
-                    })
+            }, completion: { (okay) in
+                UIView.animate(withDuration: 0.4, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                    self.layer.backgroundColor = originalCGColor
+                }, completion: { (complete) in
+                    
+                })
             })
-        })
+        })*/
     }
     
     public func updateLocalisation() {
@@ -67,10 +68,9 @@ extension UILabel{
             /*if self.uppercased == true {
              languageString = languageString.uppercased()
              }*/
-            self.text = languageString
+            self.title = languageString
         } else {
-            self.text = ""
+            self.title = ""
         }
     }
-
 }
