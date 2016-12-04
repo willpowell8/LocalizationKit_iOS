@@ -64,8 +64,14 @@ extension UILabel{
     
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
-            let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
-            self.text = languageString
+            if self.text == nil {
+                let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
+                self.text = languageString
+            }else{
+                let languageString = Localization.get(self.LocalizeKey!, alternate:self.text!)
+                self.text = languageString
+            }
+            
         } else {
             self.text = ""
         }

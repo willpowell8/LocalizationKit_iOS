@@ -145,15 +145,19 @@ public class Localization {
     public static func get(_ key:String, alternate:String) -> String{
         let m = self.loadedLanguageTranslations
         if m == nil {
-            return key
+            return alternate
         }
         
         guard let localisation = loadedLanguageTranslations?[key] else {
             if languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
-                self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!])
+                if alternate != key {
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!, "raw":alternate])
+                }else{
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!])
+                }
             }
-            return key;
+            return alternate;
         }
         return localisation
     }

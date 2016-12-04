@@ -40,7 +40,6 @@ extension UINavigationItem {
     }
     
     @objc private func updateFromNotification() {
-        //self.morphingEnabled = true
         DispatchQueue.main.async(execute: {
             self.updateLocalisation()
         })
@@ -65,8 +64,14 @@ extension UINavigationItem {
     
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
-            let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
-            self.title = languageString
+            if self.title == nil {
+                let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
+                self.title = languageString
+            }else{
+                let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
+                self.title = languageString
+            }
+            
         } else {
             self.title = ""
         }
