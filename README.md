@@ -38,6 +38,10 @@ and in the didFinishLaunchingWithOptions the following with your key:
 Localization.start(appKey: "[[KEY]]")
 ```
 
+## Using in Xcode
+<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
+</p>
+
 ## Author
 
 Will Powell [LinkedIn](https://www.linkedin.com/in/willpowelluk) [Blog](http://www.willpowell.co.uk)
