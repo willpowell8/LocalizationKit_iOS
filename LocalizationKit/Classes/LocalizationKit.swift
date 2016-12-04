@@ -42,10 +42,10 @@ public class Localization {
     
     public static func loadLanguageFromDisk(code:String){
         let standard = UserDefaults.standard
-        guard let data = standard.object(forKey: "\(self.appKey!)_\(code)") else {
+        guard let data = standard.object(forKey: "\(self.appKey!)_\(code)") as? [AnyHashable : String] else {
             return
         }
-        self.loadedLanguageTranslations = data as! [AnyHashable : String];
+        self.loadedLanguageTranslations = data;
         NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
     }
     
@@ -60,7 +60,10 @@ public class Localization {
             if (response as? HTTPURLResponse) != nil {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
-                    loadedLanguageTranslations = json?["data"] as! [AnyHashable:String];
+                    guard let jsonData = json?["data"] as? [AnyHashable:String] else{
+                        return;
+                    }
+                    loadedLanguageTranslations = jsonData;
                     saveLanguageToDisk(code: code, translation: self.loadedLanguageTranslations!);
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
