@@ -39,6 +39,13 @@ Localization.start(appKey: "[[KEY]]")
 ```
 
 ## Using in Xcode
+Localization kit has support for Xcode UI development. The process is as simple as:
+- install the cocoapod
+- open storyboard or xib file
+- select component eg UILabel or drag on standard component UILabel
+- open attribute selector
+- set a Localize Key
+- run app and the key will be available online
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
 </p>
 
