@@ -25,13 +25,51 @@ public class Localization {
     
     public static var ALL_CHANGE = Notification.Name(rawValue: "LOCALIZATION_CHANGED")
     
+    private static var _liveEnabled:Bool = false;
+    
+    public static var liveEnabled:Bool {
+        get {
+            return _liveEnabled;
+        }
+        set (newValue){
+            if(_liveEnabled != newValue){
+                _liveEnabled = newValue
+                if(newValue){
+                    startSocket();
+                }else{
+                    // end socket
+                    if((self.socket) != nil){
+                        self.socket?.disconnect()
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    
+    public static func start(appKey:String, live:Bool){
+        self.appKey = appKey
+        NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
+                                                        name: UserDefaults.didChangeNotification, object: nil)
+        initialLanguage();
+        
+        self.liveEnabled = live;
+        
+    }
+    
+    @objc public static func defaultsChanged(){
+        let userDefaults = UserDefaults.standard
+        let val = userDefaults.bool(forKey: "live_localization");
+        if(val == true && self.liveEnabled == false && self.languageCode != nil){
+            self.loadLanguage(code: self.languageCode!);
+        }
+        self.liveEnabled = val;
+    }
     
     public static func start(appKey:String){
         self.appKey = appKey
         initialLanguage();
-        
-        startSocket();
-        
     }
     
     public static func saveLanguageToDisk(code:String, translation:[AnyHashable:String]){
@@ -152,7 +190,7 @@ public class Localization {
         }
         
         guard let localisation = loadedLanguageTranslations?[key] else {
-            if languageCode != nil && socket?.status == SocketIOClientStatus.connected {
+            if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
                 if alternate != key {
                     self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!, "raw":alternate])

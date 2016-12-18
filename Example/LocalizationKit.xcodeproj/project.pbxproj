@@ -13,6 +13,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		8104AA7B1E06BAD500D18B2C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8104AA7A1E06BAD500D18B2C /* Settings.bundle */; };
 		8C1802B18F3A79AC10D37708 /* Pods_LocalizationKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37ED75AC0E11C233BF64E576 /* Pods_LocalizationKit_Tests.framework */; };
 		E8954D1BD87CFE816204087D /* Pods_LocalizationKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4362BB1324E8541FFB96E1E7 /* Pods_LocalizationKit_Example.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		69AF7E31EBA243A74727D059 /* LocalizationKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LocalizationKit.podspec; path = ../LocalizationKit.podspec; sourceTree = "<group>"; };
+		8104AA7A1E06BAD500D18B2C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		89C97EE919056557A4CEFCF8 /* Pods-LocalizationKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalizationKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LocalizationKit_Tests/Pods-LocalizationKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E5DEEE46395894CABBF7D1CE /* Pods-LocalizationKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalizationKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LocalizationKit_Tests/Pods-LocalizationKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EF3EBB3A8B0D2A2A60008009 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				8104AA7A1E06BAD500D18B2C /* Settings.bundle */,
 			);
 			name = "Example for LocalizationKit";
 			path = LocalizationKit;
@@ -250,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8104AA7B1E06BAD500D18B2C /* Settings.bundle in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
