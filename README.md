@@ -38,6 +38,23 @@ and in the didFinishLaunchingWithOptions the following with your key:
 Localization.start(appKey: "[[KEY]]")
 ```
 
+### Enabling Live Update
+One of the most powerful features of LocalizationKit is the capability to edit the text in realtime on the device. You can start the live service in the following ways:
+#### At Initialization
+```ruby
+Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", live:true)
+```
+
+#### From within Settings Bundle
+Make sure you create a settings bundle with boolean object named live_localization
+```ruby
+Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings:true)
+```
+#### Toggle it within app
+```ruby
+Localization.liveEnabled = true
+```
+
 ## Using in Xcode
 Localization kit has support for Xcode UI development. The process is as simple as:
 - install the cocoapod

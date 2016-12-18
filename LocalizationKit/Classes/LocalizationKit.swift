@@ -50,12 +50,16 @@ public class Localization {
     
     public static func start(appKey:String, live:Bool){
         self.appKey = appKey
-        NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
-                                                        name: UserDefaults.didChangeNotification, object: nil)
         initialLanguage();
-        
         self.liveEnabled = live;
         
+    }
+    
+    public static func start(appKey:String, useSettings:Bool){
+        self.appKey = appKey
+        NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
+                                               name: UserDefaults.didChangeNotification, object: nil)
+        initialLanguage();
     }
     
     @objc public static func defaultsChanged(){

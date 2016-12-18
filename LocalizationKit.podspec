@@ -8,11 +8,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LocalizationKit'
-  s.version          = '0.0.3'
+  s.version          = '1.0.0'
   s.summary          = 'iOS Localization made easy. Manage your texts and translations in realtime to support multi lingual deployment.'
 
   s.description      = <<-DESC
-LocalizationKit is the easiest way to manage your texts and translations. It removes the need to recompile and redeploy an app or website to support new languages and texts.
+LocalizationKit is the easiest way to manage your texts and translations. It removes the need to recompile and redeploy an app or website to support new languages and texts. It uses a combination of sockets and rest to allow you to manage an app without resubmitting to the app store to make linguistic changes.
                        DESC
 
   s.homepage         = 'https://github.com/willpowell8/LocalizationKit_iOS'
