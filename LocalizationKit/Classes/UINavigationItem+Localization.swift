@@ -21,25 +21,25 @@ extension UINavigationItem {
         set(newValue) {
             objc_setAssociatedObject(self, &localizationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             updateLocalisation()
-            setup();
+            localizationSetup();
         }
     }
     
-    func clear(){
+    func localizaionClear(){
         NotificationCenter.default.removeObserver(self)
     }
     
-    func setup(){
-        self.clear()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: Localization.ALL_CHANGE, object: nil)
+    func localizationSetup(){
+        self.localizaionClear()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
         let eventHighlight = "LOC_HIGHLIGHT_\(LocalizeKey!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(highlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
         let eventText = "LOC_TEXT_\(LocalizeKey!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFromNotification), name: NSNotification.Name(rawValue:eventText), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: NSNotification.Name(rawValue:eventText), object: nil)
         
     }
     
-    @objc private func updateFromNotification() {
+    @objc private func updateLocalizationFromNotification() {
         DispatchQueue.main.async(execute: {
             self.updateLocalisation()
         })
@@ -47,7 +47,7 @@ extension UINavigationItem {
     }
     
     
-    public func highlight() {
+    public func localizationHighlight() {
         /*DispatchQueue.main.async(execute: {
             let originalCGColor = self.layer.backgroundColor
             UIView.animate(withDuration: 0.4, animations: {
