@@ -19,6 +19,7 @@ extension UINavigationItem {
             return objc_getAssociatedObject(self, &localizationKey) as? String
         }
         set(newValue) {
+            self.localizaionClear()
             objc_setAssociatedObject(self, &localizationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             updateLocalisation()
             localizationSetup();
@@ -26,11 +27,16 @@ extension UINavigationItem {
     }
     
     func localizaionClear(){
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
+        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
+            let eventHighlight = "LOC_HIGHLIGHT_\(LocalizeKey!)"
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: eventHighlight), object: nil);
+            let eventText = "LOC_TEXT_\(LocalizeKey!)"
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: eventText), object: nil);
+        }
     }
     
     func localizationSetup(){
-        self.localizaionClear()
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
         let eventHighlight = "LOC_HIGHLIGHT_\(LocalizeKey!)"
         NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
