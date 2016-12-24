@@ -13,10 +13,6 @@ Localization kit is a powerful to localize texts and translation management tool
 ## How does it work
 Localization Kit quickly and easily integrates into your app using Cocoapods. Then it connects to services from [LocalizationKit.com](http://www.localizationkit.com/app/) which are free to use and manage. Then as you create items in your iOS app the text keys become available instantly in the online web UI. From there you can change the text and it is reflected within app in realtime (as you type any key).
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
 ## Installation
 
 LocalizationKit is available through [CocoaPods](http://cocoapods.org). To install
@@ -80,6 +76,28 @@ Localization Keys are the unique identifiers that allow you to assign localizati
 ```ruby
 Localization.resetToDeviceLanguage()
 ```
+
+##Events
+If you enable the live update process then you will be able to listen to localization events. These events are:
+
+- **LocalizationEvent**  - this is when a text is updated. 
+```ruby
+Localization.localizationEvent(localizationKey:String)
+```
+- **Highlight Event** - this is when a user has clicked the highlight button in the web UI.
+```ruby
+Localization.highlightEvent(localizationKey:String)
+```
+
+####Example Listening To An Event
+
+```ruby
+NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
+```
+
+
+## Example
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Author
 

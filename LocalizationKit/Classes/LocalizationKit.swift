@@ -136,6 +136,14 @@ public class Localization {
         self.resetToDeviceLanguage();
     }
     
+    public static func highlightEvent(localizationKey:String) -> Notification.Name{
+        return Notification.Name(rawValue: "LOC_HIGHLIGHT_\(localizationKey)")
+    }
+    
+    public static func localizationEvent(localizationKey:String) -> Notification.Name{
+        return Notification.Name(rawValue: "LOC_TEXT_\(localizationKey)")
+    }
+    
     
     private static func startSocket(){
         let url = URL(string: server)
@@ -151,17 +159,19 @@ public class Localization {
         })
         socket?.on("highlight", callback: {(data,ack) in
             let dictionary = data[0] as! [AnyHashable : Any]
-            let meta = dictionary["meta"] as! String
-            let event = "LOC_HIGHLIGHT_\(meta)"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: event), object: self)
+            guard let meta = dictionary["meta"] as? String else {
+                return;
+            }
+            NotificationCenter.default.post(name: self.highlightEvent(localizationKey: meta), object: self)
         })
         socket?.on("text", callback: {(data,ack) in
             let dictionary = data[0] as! [AnyHashable : Any]
-            let meta = dictionary["meta"] as! String
+            guard let meta = dictionary["meta"] as? String else {
+                return;
+            }
             let value = dictionary["value"] as! String
             self.loadedLanguageTranslations?[meta] = value
-            let event = "LOC_TEXT_\(meta)"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: event), object: self)
+            NotificationCenter.default.post(name: self.localizationEvent(localizationKey: meta), object: self)
         })
         socket?.connect()
     }

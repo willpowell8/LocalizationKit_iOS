@@ -28,20 +28,16 @@ extension UILabel{
     func localizationClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            let eventHighlight = "LOC_HIGHLIGHT_\(LocalizeKey!)"
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: eventHighlight), object: nil);
-            let eventText = "LOC_TEXT_\(LocalizeKey!)"
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: eventText), object: nil);
+            
+            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil);
+            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil);
         }
     }
     
     func localizationSetup(){
-        
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
-        let eventHighlight = "LOC_HIGHLIGHT_\(LocalizeKey!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: NSNotification.Name(rawValue:eventHighlight), object: nil)
-        let eventText = "LOC_TEXT_\(LocalizeKey!)"
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: NSNotification.Name(rawValue:eventText), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil)
         
     }
     
@@ -68,7 +64,7 @@ extension UILabel{
             })
         })
     }
-    
+
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
             if self.text == nil {
