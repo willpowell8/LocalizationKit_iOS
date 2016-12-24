@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/cocoapods/l/LocalizationKit.svg?style=flat)](http://cocoapods.org/pods/LocalizationKit)
 [![Platform](https://img.shields.io/cocoapods/p/LocalizationKit.svg?style=flat)](http://cocoapods.org/pods/LocalizationKit)
 
-Localization kit is a powerful web driven text and translation management tool. I am a developer and invariably I get the questions 'Can you just change this text?' or 'Can you add another language?' I have designed this framework so you can manage these translations and texts without having to recompile and without the need to use developers. 
+Localization kit is a powerful to localize texts and translation management tool. I am a developer and invariably I get the questions 'Can you just change this text?' or 'Can you add another language?' I have designed this framework so you can manage these translations and texts without having to recompile, resubmit and without the need to use developers. Essentially take out all of the pain.
 
 ## How does it work
 Localization Kit quickly and easily integrates into your app using Cocoapods. Then it connects to services from [LocalizationKit.com](http://www.localizationkit.com/app/) which are free to use and manage. Then as you create items in your iOS app the text keys become available instantly in the online web UI. From there you can change the text and it is reflected within app in realtime (as you type any key).
@@ -38,24 +38,24 @@ and in the didFinishLaunchingWithOptions the following with your key:
 Localization.start(appKey: "[[KEY]]")
 ```
 
-### Enabling Live Update
+###Enabling Live Update
 One of the most powerful features of LocalizationKit is the capability to edit the text in realtime on the device. You can start the live service in the following ways:
-#### At Initialization
+####At Initialization
 ```ruby
 Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", live:true)
 ```
 
-#### From within Settings Bundle
+####From within Settings Bundle
 Make sure you create a settings bundle with boolean object named live_localization
 ```ruby
 Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings:true)
 ```
-#### Toggle it within app
+####Toggle it within app
 ```ruby
 Localization.liveEnabled = true
 ```
 
-## Using in Xcode
+##Using in Xcode
 Localization kit has support for Xcode UI development. The process is as simple as:
 - install the cocoapod
 - open storyboard or xib file
@@ -66,9 +66,24 @@ Localization kit has support for Xcode UI development. The process is as simple 
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
 </p>
 
+##Manual Use
+You can always use Localization without using the storyboard integration by calling the get function with id string and default text and it will return a localized string.
+```ruby
+let resultText = Localization.get("localization Key", alternate:"default label text")
+```
+##Localization Keys
+Localization Keys are the unique identifiers that allow you to assign localization to the correct part within your app. You can use any string as a device identifier, however the application has some features to make live easier if you use dot separation methodology: ie. Product.Details.Label
+
+##Other Functions
+
+####Reset to device language
+```ruby
+Localization.resetToDeviceLanguage()
+```
+
 ## Author
 
-Will Powell [LinkedIn](https://www.linkedin.com/in/willpowelluk) [Blog](http://www.willpowell.co.uk)
+Will Powell - [LinkedIn](https://www.linkedin.com/in/willpowelluk) | [Blog](http://www.willpowell.co.uk)
 
 ## License
 

@@ -132,6 +132,10 @@ public class Localization {
         setLanguage(currentLanguage)
     }
     
+    public func resetToDeviceLanguage(){
+        self.resetToDeviceLanguage();
+    }
+    
     
     private static func startSocket(){
         let url = URL(string: server)
