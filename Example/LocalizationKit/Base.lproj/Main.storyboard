@@ -100,7 +100,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="hWO-4G-02D">
-                        <barButtonItem key="rightBarButtonItem" title="Change" id="R0l-jN-Tak"/>
+                        <barButtonItem key="rightBarButtonItem" title="Change" id="R0l-jN-Tak">
+                            <connections>
+                                <action selector="changeLanguage:" destination="vXZ-lx-hvc" id="9Ug-uT-rKK"/>
+                            </connections>
+                        </barButtonItem>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.Title"/>
                         </userDefinedRuntimeAttributes>

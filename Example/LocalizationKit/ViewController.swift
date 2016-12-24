@@ -28,6 +28,27 @@ class ViewController: UIViewController {
     @IBAction func changeLanguageEnglish(_ sender:AnyObject){
         Localization.setLanguage("en")
     }
+    
+    @IBAction func changeLanguage(_ sender:AnyObject){
+        let alertController = UIAlertController(title: "Select Language", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let englishAction = UIAlertAction(title: "English", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("en")
+        })
+        
+        let frenchAction = UIAlertAction(title: "French", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("fr")
+        })
+        
+        let germanAction = UIAlertAction(title: "German", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("de")
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
+        alertController.addAction(englishAction)
+        alertController.addAction(frenchAction)
+        alertController.addAction(germanAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion:{})
+    }
 
 }
 
