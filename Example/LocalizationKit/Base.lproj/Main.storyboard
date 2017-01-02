@@ -97,6 +97,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="hWO-4G-02D">
                         <barButtonItem key="rightBarButtonItem" title="Change" id="R0l-jN-Tak">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.Nav.Change"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="changeLanguage:" destination="vXZ-lx-hvc" id="9Ug-uT-rKK"/>
                             </connections>
