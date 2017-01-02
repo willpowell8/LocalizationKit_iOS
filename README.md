@@ -55,7 +55,7 @@ Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings:t
 Localization.liveEnabled = true
 ```
 
-##Using in Xcode
+##Using Interface Builder
 Localization kit has support for Xcode UI development. The process is as simple as:
 - install the cocoapod
 - open storyboard or xib file
@@ -66,10 +66,14 @@ Localization kit has support for Xcode UI development. The process is as simple 
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
 </p>
 
-##Manual Use
-You can always use Localization without using the storyboard integration by calling the get function with id string and default text and it will return a localized string.
+##Using from Code
+There are several ways of using the localization system from code without using storyboard or interface builder. The first is from any string you can call the .localize to call the localized string for it. This does not give you the live updates of the text but provides you with the text at the moment you call it.
 ```ruby
-let resultText = Localization.get("localization Key", alternate:"default label text")
+let localizedGreeting = "Hello".localize;
+```
+This will create a localization key of String.*Your String* (which has dots replacing the spaces). For example 'Select Languages' would become String.Select.Languages. These texts will similarly be made available for you to localize within the web UI.
+```ruby
+let resultText = Localization.get("Localization.Key", alternate:"default label text")
 ```
 ##Localization Keys
 Localization Keys are the unique identifiers that allow you to assign localization to the correct part within your app. You can use any string as a device identifier, however the application has some features to make live easier if you use dot separation methodology: ie. Product.Details.Label

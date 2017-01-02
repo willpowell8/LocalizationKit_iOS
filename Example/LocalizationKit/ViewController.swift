@@ -21,16 +21,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func changeLanguageFrench(_ sender:AnyObject){
-        Localization.setLanguage("fr")
-    }
-    
-    @IBAction func changeLanguageEnglish(_ sender:AnyObject){
-        Localization.setLanguage("en")
-    }
-    
     @IBAction func changeLanguage(_ sender:AnyObject){
-        let alertController = UIAlertController(title: "Select Language", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        
+        let localizedString = "Select Language".localize
+        print("\(localizedString!)");
+        
+        let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let englishAction = UIAlertAction(title: "English", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("en")
         })
