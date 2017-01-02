@@ -24,6 +24,10 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "LocalizationKit"
 ```
+You also need to add www.localizationkit.com to your app's transport security so it can pull the translations and texts from the cloud. To do this go to your plist file. Add a new row and type in App Transport Security and it should autocomplete the correct text. Then underneath add Exception Domains and underneath that add www.localizationkit.com so you should have something looking like the below image.
+<p align="center" >
+<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/AppTransportSecurity.png" alt="LocalizationKit" title="LocalizationKit">
+</p>
 
 Then go to LocalizationKit.com/app/ and create a new app on the left handside using your name. Then take the code generated currently in the url after #/app/...KEY HERE...
 
@@ -38,24 +42,24 @@ and in the didFinishLaunchingWithOptions the following with your key:
 Localization.start(appKey: "[[KEY]]")
 ```
 
-###Enabling Live Update
+### Enabling Live Update
 One of the most powerful features of LocalizationKit is the capability to edit the text in realtime on the device. You can start the live service in the following ways:
-####At Initialization
+#### At Initialization
 ```ruby
 Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", live:true)
 ```
 
-####From within Settings Bundle
+#### From within Settings Bundle
 Make sure you create a settings bundle with boolean object named live_localization
 ```ruby
 Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings:true)
 ```
-####Toggle it within app
+#### Toggle it within app
 ```ruby
 Localization.liveEnabled = true
 ```
 
-##Using Interface Builder
+## Using Interface Builder
 Localization kit has support for Xcode UI development. The process is as simple as:
 - install the cocoapod
 - open storyboard or xib file
@@ -66,7 +70,7 @@ Localization kit has support for Xcode UI development. The process is as simple 
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
 </p>
 
-##Using from Code
+## Using from Code
 There are several ways of using the localization system from code without using storyboard or interface builder. The first is from any string you can call the .localize to call the localized string for it. This does not give you the live updates of the text but provides you with the text at the moment you call it.
 ```ruby
 let localizedGreeting = "Hello".localize;
@@ -75,17 +79,17 @@ This will create a localization key of String.*Your String* (which has dots repl
 ```ruby
 let resultText = Localization.get("Localization.Key", alternate:"default label text")
 ```
-##Localization Keys
+## Localization Keys
 Localization Keys are the unique identifiers that allow you to assign localization to the correct part within your app. You can use any string as a device identifier, however the application has some features to make live easier if you use dot separation methodology: ie. Product.Details.Label
 
-##Other Functions
+## Other Functions
 
-####Reset to device language
+#### Reset to device language
 ```ruby
 Localization.resetToDeviceLanguage()
 ```
 
-##Events
+## Events
 If you enable the live update process then you will be able to listen to localization events. These events are:
 
 - **LocalizationEvent**  - this is when a text is updated. 
@@ -97,7 +101,7 @@ Localization.localizationEvent(localizationKey:String)
 Localization.highlightEvent(localizationKey:String)
 ```
 
-####Example Listening To An Event
+#### Example Listening To An Event
 
 ```ruby
 NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
