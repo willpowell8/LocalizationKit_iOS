@@ -1,5 +1,5 @@
 //
-//  NSString+Localization.swift
+//  String+Localization.swift
 //  Pods
 //
 //  Created by Will Powell on 02/01/2017.
@@ -10,6 +10,7 @@ import Foundation
 
 
 extension String {
+    /// returns the localized text
     public var localize: String? {
         get {
             guard let localizationKey = self.stringLocalizationKey() else{
@@ -23,6 +24,7 @@ extension String {
         }
     }
     
+    /// gets identifier string from string text. Built of form String.*Your String*
     private func stringLocalizationKey() -> String? {
         if(self.characters.count > 0){
             var newString = "String.\(self)"

@@ -12,6 +12,7 @@ import ObjectiveC
 private var localizationKey: UInt8 = 0
 
 extension UILabel{
+    /// Localization Key used to reference the unique translation and text required.
     @IBInspectable
     public var LocalizeKey: String? {
         get {
@@ -25,6 +26,7 @@ extension UILabel{
         }
     }
     
+    /// clear previous localization listeners
     func localizationClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
@@ -34,6 +36,7 @@ extension UILabel{
         }
     }
     
+    /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
@@ -41,6 +44,7 @@ extension UILabel{
         
     }
     
+    /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
         //self.morphingEnabled = true
         DispatchQueue.main.async(execute: {
@@ -49,7 +53,7 @@ extension UILabel{
         
     }
     
-    
+    /// trigger field highlight
     public func localizationHighlight() {
         DispatchQueue.main.async(execute: {
             let originalCGColor = self.layer.backgroundColor
@@ -64,7 +68,8 @@ extension UILabel{
             })
         })
     }
-
+    
+    /// update the localization
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
             if self.text == nil {

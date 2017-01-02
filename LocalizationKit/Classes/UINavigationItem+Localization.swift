@@ -13,6 +13,8 @@ import UIKit
 private var localizationKey: UInt8 = 1
 
 extension UINavigationItem {
+    
+    /// Localization Key used to reference the unique translation and text required.
     @IBInspectable
     public var LocalizeKey: String? {
         get {
@@ -26,6 +28,7 @@ extension UINavigationItem {
         }
     }
     
+    /// clear previous localization listeners
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
@@ -34,12 +37,14 @@ extension UINavigationItem {
         }
     }
     
+    /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil)
     }
     
+    /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
         DispatchQueue.main.async(execute: {
             self.updateLocalisation()
@@ -47,7 +52,7 @@ extension UINavigationItem {
         
     }
     
-    
+    /// trigger field highlight
     public func localizationHighlight() {
         /*DispatchQueue.main.async(execute: {
             let originalCGColor = self.layer.backgroundColor
@@ -63,6 +68,7 @@ extension UINavigationItem {
         })*/
     }
     
+    /// update the localization
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
             if self.title == nil {
