@@ -44,7 +44,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="locLabel" value="LiveLanguage.Test"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.LanguageLabel"/>
                                 </userDefinedRuntimeAttributes>
                             </label>
@@ -55,7 +54,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="locLabel" value="LiveLanguage.Test2"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.WelcomeLabel"/>
                                 </userDefinedRuntimeAttributes>
                             </label>
@@ -66,7 +64,6 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="locLabel" value="LiveLanguage.Test3"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.Greeting"/>
                                 </userDefinedRuntimeAttributes>
                             </label>
@@ -77,7 +74,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="locLabel" value="LiveLanguage.Test7"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="LocalizeKey" value="Home.Text"/>
                                 </userDefinedRuntimeAttributes>
                             </label>
