@@ -49,6 +49,7 @@
 		8104AA7A1E06BAD500D18B2C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		814528281E0EC681002FF353 /* LocalizationLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocalizationLogo.png; sourceTree = "<group>"; };
 		81CDD8D81E1AEA96004E8D6A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
+		81CDD8DB1E1AECBA004E8D6A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		89C97EE919056557A4CEFCF8 /* Pods-LocalizationKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalizationKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LocalizationKit_Tests/Pods-LocalizationKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E5DEEE46395894CABBF7D1CE /* Pods-LocalizationKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalizationKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LocalizationKit_Tests/Pods-LocalizationKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EF3EBB3A8B0D2A2A60008009 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				81CDD8DB1E1AECBA004E8D6A /* CHANGELOG.md */,
 				69AF7E31EBA243A74727D059 /* LocalizationKit.podspec */,
 				0087564448E02E0ED9E56DBA /* README.md */,
 				EF3EBB3A8B0D2A2A60008009 /* LICENSE */,
