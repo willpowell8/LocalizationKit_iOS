@@ -65,8 +65,10 @@ public class Localization {
     /// - parameter useSettings: Use the settings bundle
     public static func start(appKey:String, useSettings:Bool){
         self.appKey = appKey
+        
         NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
                                                name: UserDefaults.didChangeNotification, object: nil)
+        defaultsChanged()
         initialLanguage();
     }
     

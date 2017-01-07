@@ -15,6 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        var appDefaults = Dictionary<String, AnyObject>()
+        appDefaults["live_localization"] = true as AnyObject?;
+        UserDefaults.standard.register(defaults: appDefaults)
+        UserDefaults.standard.synchronize()
         Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", useSettings:true)
         return true
     }
