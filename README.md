@@ -34,28 +34,28 @@ Then go to LocalizationKit.com/app/ and create a new app on the left handside us
 Then put the following into your app delegate:
 
 At the top:
-```ruby
+```swift
 import LocalizationKit
 ```
 and in the didFinishLaunchingWithOptions the following with your key:
-```ruby
+```swift
 Localization.start(appKey: "[[KEY]]")
 ```
 
 ### Enabling Live Update
 One of the most powerful features of LocalizationKit is the capability to edit the text in realtime on the device. You can start the live service in the following ways:
 #### At Initialization
-```ruby
-Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", live:true)
+```swift
+Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", live: true)
 ```
 
 #### From within Settings Bundle
 Make sure you create a settings bundle with boolean object named live_localization
-```ruby
-Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings:true)
+```swift
+Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings: true)
 ```
 #### Toggle it within app
-```ruby
+```swift
 Localization.liveEnabled = true
 ```
 
@@ -72,12 +72,12 @@ Localization kit has support for Xcode UI development. The process is as simple 
 
 ## Using from Code
 There are several ways of using the localization system from code without using storyboard or interface builder. The first is from any string you can call the .localize to call the localized string for it. This does not give you the live updates of the text but provides you with the text at the moment you call it.
-```ruby
-let localizedGreeting = "Hello".localize;
+```swift
+let localizedGreeting = "Hello".localize
 ```
 This will create a localization key of String.*Your String* (which has dots replacing the spaces). For example 'Select Languages' would become String.Select.Languages. These texts will similarly be made available for you to localize within the web UI.
-```ruby
-let resultText = Localization.get("Localization.Key", alternate:"default label text")
+```swift
+let resultText = Localization.get("Localization.Key", alternate: "default label text")
 ```
 ## Localization Keys
 Localization Keys are the unique identifiers that allow you to assign localization to the correct part within your app. You can use any string as a device identifier, however the application has some features to make live easier if you use dot separation methodology: ie. Product.Details.Label
@@ -85,7 +85,7 @@ Localization Keys are the unique identifiers that allow you to assign localizati
 ## Other Functions
 
 #### Reset to device language
-```ruby
+```swift
 Localization.resetToDeviceLanguage()
 ```
 
@@ -93,17 +93,17 @@ Localization.resetToDeviceLanguage()
 If you enable the live update process then you will be able to listen to localization events. These events are:
 
 - **LocalizationEvent**  - this is when a text is updated. 
-```ruby
-Localization.localizationEvent(localizationKey:String)
+```swift
+Localization.localizationEvent(localizationKey: String)
 ```
 - **Highlight Event** - this is when a user has clicked the highlight button in the web UI.
-```ruby
-Localization.highlightEvent(localizationKey:String)
+```swift
+Localization.highlightEvent(localizationKey: String)
 ```
 
 #### Example Listening To An Event
 
-```ruby
+```swift
 NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
 ```
 
