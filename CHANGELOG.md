@@ -1,5 +1,15 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+
+### 1.0.12 - Added UIButton and UITextField support
+#### UIButton support
+By setting a Key on a UIButton it will now create a .Normal key in the web portal
+#### UITextField support
+By setting a localization key for a UITextField it will create a localization key in the web portal with .Placeholder so you can change it remotely
+#### Other Updates
+- Added print of portal URL when starting
+- ATS fixes
+
 ### 1.0.11 - Added UIBarItem and UIBarButtonItem
 Added more components for default support out of the box.
 
