@@ -66,6 +66,15 @@ Localization kit has support for Xcode UI development. The process is as simple 
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
 </p>
 
+### Supported Components
+- UILabel
+- UINavigatioNitem
+- String
+- UIBarItem
+- UIBarButtonItem
+- UITextField
+- UIButton
+
 ## Using from Code
 There are several ways of using the localization system from code without using storyboard or interface builder. The first is from any string you can call the .localize to call the localized string for it. This does not give you the live updates of the text but provides you with the text at the moment you call it.
 ```swift
