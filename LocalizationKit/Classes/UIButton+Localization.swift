@@ -75,7 +75,9 @@ extension UIButton {
             if normalText != nil && (normalText?.characters.count)! > 0 {
                 let normalKey = "\(self.LocalizeKey!).Normal";
                 let languageString = Localization.get(normalKey, alternate:normalText!)
-                self.setTitle(languageString, for: .normal);
+                if self.title(for: .normal) != languageString {
+                    self.setTitle(languageString, for: .normal);
+                }
             }
         }
     }
