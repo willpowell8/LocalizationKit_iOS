@@ -24,12 +24,8 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "LocalizationKit"
 ```
-You also need to add www.localizationkit.com to your app's transport security so it can pull the translations and texts from the cloud. To do this go to your plist file. Add a new row and type in App Transport Security and it should autocomplete the correct text. Then underneath add Exception Domains and underneath that add www.localizationkit.com so you should have something looking like the below image.
-<p align="center" >
-<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/AppTransportSecurity.png" alt="LocalizationKit" title="LocalizationKit">
-</p>
 
-Then go to LocalizationKit.com/app/ and create a new app on the left handside using your name. Then take the code generated currently in the url after #/app/...KEY HERE...
+Then go to https://www.localizationkit.com/app/ and create a new app on the left handside using your name. Then take the code generated currently in the url after #/app/...KEY HERE...
 
 Then put the following into your app delegate:
 
