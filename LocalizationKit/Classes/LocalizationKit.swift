@@ -146,6 +146,8 @@ public class Localization {
     
     /// Load initial language
     private static func initialLanguage(){
+        let url = URL(string: "\(server)/app/#/app/\(appKey!)")
+        print("LocalizationKit:", url!)
         let defs = UserDefaults.standard
         let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
         let current:String  = languages.object(at: 0) as! String

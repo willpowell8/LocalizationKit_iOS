@@ -16,11 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // DEFINING APP SETTINGS DEFAULTS
         var appDefaults = Dictionary<String, AnyObject>()
         appDefaults["live_localization"] = true as AnyObject?;
         UserDefaults.standard.register(defaults: appDefaults)
         UserDefaults.standard.synchronize()
+        
+        // LOCALIZATION KIT START DEFINED HERE
         Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", useSettings:true)
+        //
+        // Other options
+        // Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", live:true) - to run live mode regardless
+        //
+        // LOCALIZATION KIT END DEFINED
+        
         return true
     }
 
