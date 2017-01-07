@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // LOCALIZATION KIT START DEFINED HERE
         Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", useSettings:true)
+        Localization.availableLanguages { (languages) in
+            print("Languages");
+        }
         //
         // Other options
         // Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", live:true) - to run live mode regardless

@@ -137,6 +137,38 @@ public class Localization {
             }
             }.resume()
     }
+    /// Request Available Languages
+    public static func availableLanguages(_: @escaping ([[String:String]]) -> Swift.Void){
+        loadAvailableLanguages { (languages) in
+            print("languages");
+        }
+    }
+    
+    /// Load available languages from server
+    private static func loadAvailableLanguages(_: @escaping ([[String:String]]) -> Swift.Void){
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let urlString = Localization.server+"/api/app/\((self.appKey)!)/languages/"
+        let url = URL(string: urlString as String)
+        session.dataTask(with: url!) {
+            (data, response, error) in
+            if (response as? HTTPURLResponse) != nil {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
+                    /*guard let jsonData = json?["data"] as? [AnyHashable:String] else{
+                        return;
+                    }
+                    loadedLanguageTranslations = jsonData;
+                    self.joinLanguageRoom()
+                    NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)*/
+                    
+                } catch {
+                    print("error serializing JSON: \(error)")
+                }
+                
+            }
+            }.resume()
+    }
     
     /// Subscribe to current language updates
     private static func joinLanguageRoom(){
