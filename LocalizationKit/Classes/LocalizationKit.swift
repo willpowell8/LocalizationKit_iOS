@@ -180,7 +180,11 @@ public class Localization {
                     for var i in 0..<languages.count {
                         let languageKey = languages[i]["key"] as! String;
                         let languageName = languages[i]["name"] as! [String:String];
-                        languagesOutput.append(Language(localizedName: languageName[languageCode]!, key: languageKey))
+                        var languageNameLocalized = languageKey
+                        if languageName[languageCode] != nil {
+                            languageNameLocalized = languageName[languageCode]!
+                        }
+                        languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey))
                     }
                     print("Completed");
                     completion(languagesOutput)
