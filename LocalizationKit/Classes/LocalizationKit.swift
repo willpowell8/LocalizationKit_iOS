@@ -192,11 +192,7 @@ public class Localization {
             }.resume()
     }
     
-    /// Subscribe to current language updates
-    private static func joinLanguageRoom(){
-        let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
-        sendMessage(type: "join", data: ["room":languageRoom])
-    }
+    
     
     /// Load initial language
     private static func initialLanguage(){
@@ -264,8 +260,22 @@ public class Localization {
         self.sendMessage(type: "join", data: ["room":name])
     }
     
+    /// Subscribe to current language updates
+    private static func joinLanguageRoom(){
+        let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
+        joinRoom(name:languageRoom)
+    }
+    
     private static func leaveRoom(name:String){
         self.sendMessage(type: "leave", data: ["room":name])
+    }
+    
+    /// Subscribe to current language updates
+    private static func leaveLanguageRoom(){
+        if self.appKey != nil && self.languageCode != nil {
+            let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
+            leaveRoom(name:languageRoom)
+        }
     }
     
     private static func sendMessage(type:String, data:SocketData...){
@@ -278,6 +288,7 @@ public class Localization {
     /// - parameter language: language 2 character code
     public static func setLanguage(_ language:String){
         if languageCode != language {
+            self.leaveLanguageRoom();
             languageCode = language
             loadLanguage(code: language);
             //NotificationCenter.default.post(name: Notification.Name(rawValue: "LOCALIZATION_CHANGED"), object: self)
