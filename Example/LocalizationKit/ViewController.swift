@@ -29,7 +29,18 @@ class ViewController: UIViewController {
         
         let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let englishAction = UIAlertAction(title: "English", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("en")
+        Localization.availableLanguages { (languages) in
+            for var language in languages {
+                let action = UIAlertAction(title: language.localizedName, style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage(language.key)
+                })
+                alertController.addAction(action)
+            }
+            DispatchQueue.main.async(execute: {
+                self.present(alertController, animated: true, completion:{})
+            });
+        }
+        
+        /*let englishAction = UIAlertAction(title: "English", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("en")
         })
         
         let frenchAction = UIAlertAction(title: "French", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("fr")
@@ -60,7 +71,7 @@ class ViewController: UIViewController {
         alertController.addAction(koreanAction)
         alertController.addAction(cancelAction)
         
-        self.present(alertController, animated: true, completion:{})
+        self.present(alertController, animated: true, completion:{})*/
     }
 
 }

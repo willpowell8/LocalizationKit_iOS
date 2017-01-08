@@ -9,6 +9,16 @@
 import Foundation
 import SocketIO
 
+public class Language {
+    public var localizedName:String = "";
+    public var key:String = "";
+    
+    init (localizedName:String, key:String){
+        self.key = key;
+        self.localizedName = localizedName
+    }
+}
+
 public class Localization {
     
     /// remote server url
@@ -137,15 +147,23 @@ public class Localization {
             }
             }.resume()
     }
+    
     /// Request Available Languages
-    public static func availableLanguages(_: @escaping ([[String:String]]) -> Swift.Void){
-        loadAvailableLanguages { (languages) in
-            print("languages");
+    public static func availableLanguages(_ completion: @escaping ([Language]) -> Swift.Void){
+        loadAvailableLanguages (languageCode: self.languageCode!) { (languages) in
+            completion(languages)
+        }
+    }
+    
+    /// Request Available Languages
+    public static func availableLanguages(languageCode:String,_ completion: @escaping ([Language]) -> Swift.Void){
+        loadAvailableLanguages (languageCode: languageCode) { (languages) in
+            completion(languages)
         }
     }
     
     /// Load available languages from server
-    private static func loadAvailableLanguages(_: @escaping ([[String:String]]) -> Swift.Void){
+    private static func loadAvailableLanguages(languageCode:String, _ completion: @escaping ([Language]) -> Swift.Void){
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let urlString = Localization.server+"/api/app/\((self.appKey)!)/languages/"
@@ -155,13 +173,17 @@ public class Localization {
             if (response as? HTTPURLResponse) != nil {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
-                    /*guard let jsonData = json?["data"] as? [AnyHashable:String] else{
+                    guard let languages = json?["languages"] as? [[String:AnyHashable]] else{
                         return;
                     }
-                    loadedLanguageTranslations = jsonData;
-                    self.joinLanguageRoom()
-                    NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)*/
-                    
+                    var languagesOutput = [Language]()
+                    for var i in 0..<languages.count {
+                        let languageKey = languages[i]["key"] as! String;
+                        let languageName = languages[i]["name"] as! [String:String];
+                        languagesOutput.append(Language(localizedName: languageName[languageCode]!, key: languageKey))
+                    }
+                    print("Completed");
+                    completion(languagesOutput)
                 } catch {
                     print("error serializing JSON: \(error)")
                 }
