@@ -1,6 +1,9 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
 
+### 1.1.0 - Get available languages
+Now you can return the available languages that you have setup on the server.
+
 ### 1.0.12 - Added UIButton and UITextField support
 #### UIButton support
 By setting a Key on a UIButton it will now create a .Normal key in the web portal

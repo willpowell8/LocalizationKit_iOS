@@ -94,6 +94,13 @@ Localization Keys are the unique identifiers that allow you to assign localizati
 Localization.setLanguage("de")
 ```
 
+#### Get Available Languages
+```swift
+Localization.availableLanguages { (languages) in
+    // Languages is an array of [Language] which has properties localizedName and key
+}
+```
+
 #### Reset to device language
 ```swift
 Localization.resetToDeviceLanguage()
