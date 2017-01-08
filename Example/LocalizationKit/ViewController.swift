@@ -39,39 +39,6 @@ class ViewController: UIViewController {
                 self.present(alertController, animated: true, completion:{})
             });
         }
-        
-        /*let englishAction = UIAlertAction(title: "English", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("en")
-        })
-        
-        let frenchAction = UIAlertAction(title: "French", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("fr")
-        })
-        
-        let germanAction = UIAlertAction(title: "German", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("de")
-        })
-        
-        let spanishAction = UIAlertAction(title: "Spanish", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("es")
-        })
-        
-        let italianAction = UIAlertAction(title: "Italian", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("it")
-        })
-        
-        let chineseAction = UIAlertAction(title: "Chinese", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("cn")
-        })
-        
-        let koreanAction = UIAlertAction(title: "Korean", style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage("de")
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in print("cancel")})
-        alertController.addAction(englishAction)
-        alertController.addAction(frenchAction)
-        alertController.addAction(germanAction)
-        alertController.addAction(spanishAction)
-        alertController.addAction(italianAction)
-        alertController.addAction(chineseAction)
-        alertController.addAction(koreanAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion:{})*/
     }
 
 }
