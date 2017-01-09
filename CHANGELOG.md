@@ -1,6 +1,8 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
 
+### 1.1.1 - Support for MacOSX
+
 ### 1.1.0 - Get available languages
 Now you can return the available languages that you have setup on the server.
 
