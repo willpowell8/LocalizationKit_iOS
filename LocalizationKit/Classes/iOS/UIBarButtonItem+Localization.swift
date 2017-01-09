@@ -6,6 +6,7 @@
 //
 //
 
+#if os(iOS)
 import Foundation
 
 extension UIBarButtonItem {
@@ -16,3 +17,4 @@ extension UIBarButtonItem {
         
     }
 }
+#endif

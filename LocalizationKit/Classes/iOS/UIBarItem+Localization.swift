@@ -6,6 +6,7 @@
 //
 //
 
+#if os(iOS)
 import Foundation
 
 private var localizationKey: UInt8 = 2
@@ -80,3 +81,4 @@ extension UIBarItem {
         }
     }
 }
+#endif

@@ -177,7 +177,7 @@ public class Localization {
                         return;
                     }
                     var languagesOutput = [Language]()
-                    for var i in 0..<languages.count {
+                    for i in 0..<languages.count {
                         let languageKey = languages[i]["key"] as! String;
                         let languageName = languages[i]["name"] as! [String:String];
                         var languageNameLocalized = languageKey

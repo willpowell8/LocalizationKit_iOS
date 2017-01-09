@@ -1,16 +1,18 @@
 //
-//  UIButton+Localization.swift
+//  UITextField+Localization.swift
 //  Pods
 //
 //  Created by Will Powell on 02/01/2017.
 //
 //
 
+#if os(iOS)
 import Foundation
 
-private var localizationKey: UInt8 = 4
+private var localizationKey: UInt8 = 3
 
-extension UIButton {
+
+extension UITextField {
     /// Localization Key used to reference the unique translation and text required.
     @IBInspectable
     public var LocalizeKey: String? {
@@ -29,18 +31,18 @@ extension UIButton {
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            let normalKey = "\(self.LocalizeKey!).Normal";
-            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: normalKey), object: nil);
-            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: normalKey), object: nil);
+            let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
+            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil);
+            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil);
         }
     }
     
     /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
-        let normalKey = "\(self.LocalizeKey!).Normal";
-        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: normalKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: normalKey), object: nil)
+        let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
+        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil)
     }
     
     /// update localization from notification on main thread
@@ -70,15 +72,15 @@ extension UIButton {
     /// update the localization
     public func updateLocalisation() {
         if ((self.LocalizeKey?.isEmpty) != nil)  {
-            
-            let normalText = self.title(for: .normal);
-            if normalText != nil && (normalText?.characters.count)! > 0 {
-                let normalKey = "\(self.LocalizeKey!).Normal";
-                let languageString = Localization.get(normalKey, alternate:normalText!)
-                if self.title(for: .normal) != languageString {
-                    self.setTitle(languageString, for: .normal);
-                }
+            let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
+            if self.placeholder == nil {
+                let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
+                self.placeholder = languageString
+            }else{
+                let languageString = Localization.get(placeHolderKey, alternate:self.placeholder!)
+                self.placeholder = languageString
             }
         }
     }
 }
+#endif

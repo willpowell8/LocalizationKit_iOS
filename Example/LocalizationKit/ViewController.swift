@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         Localization.availableLanguages { (languages) in
-            for var language in languages {
+            for language in languages {
                 let action = UIAlertAction(title: language.localizedName, style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage(language.key)
                 })
                 alertController.addAction(action)

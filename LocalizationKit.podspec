@@ -22,9 +22,8 @@ LocalizationKit is the easiest way to manage your texts and translations. It rem
   s.social_media_url = 'https://twitter.com/willpowelluk'
 
   s.ios.deployment_target = '8.0'
-
+  s.osx.deployment_target = '10.10'
   s.source_files = 'LocalizationKit/Classes/**/*'
 
-  s.frameworks = 'UIKit'
   s.dependency 'Socket.IO-Client-Swift', '~>8.1.1'
 end
