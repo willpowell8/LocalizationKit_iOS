@@ -8,7 +8,9 @@
 
 import Foundation
 
-/// Associate object retriever
+/**
+ Associate object retriever
+*/
 func associatedObject<ValueType: AnyObject>(
     base: AnyObject,
     key: UnsafePointer<UInt8>,
@@ -22,7 +24,9 @@ func associatedObject<ValueType: AnyObject>(
         return associated
 }
 
-/// Associate object setter
+/**
+ Associate object setter
+*/
 func associateObject<ValueType: AnyObject>(
     base: AnyObject,
     key: UnsafePointer<UInt8>,

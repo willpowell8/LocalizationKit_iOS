@@ -21,12 +21,19 @@ public class Language {
 
 public class Localization {
     
-    /// remote server url
+    /**
+        Remote server address
+    */
     public static var server:String = "https://www.localizationkit.com";
     
-    /// Current language code
+    /**
+        Current language code
+    */
     public static var languageCode:String?
-    /// core socket
+    
+    /**
+        core socket
+    */
     public static var socket:SocketIOClient?
     
     private static var appKey:String?
@@ -34,12 +41,16 @@ public class Localization {
     private static var loadedLanguage:String?
     private static var loadedLanguageTranslations:[AnyHashable:String]?
     
-    /// Notification event fired when language is initially loaded of localization text is changed
+    /**
+        Notification event fired when language is initially loaded of localization text is changed
+    */
     public static var ALL_CHANGE = Notification.Name(rawValue: "LOCALIZATION_CHANGED")
     
     private static var _liveEnabled:Bool = false;
     
-    /// If live updates are enabled
+    /** 
+        If live updates are enabled
+    */
     public static var liveEnabled:Bool {
         get {
             return _liveEnabled;
@@ -60,9 +71,11 @@ public class Localization {
         }
     }
     
-    /// Start Localization Service
-    /// - parameter appKey: API key
-    /// - parameter live: should enable dynamic update
+    /**
+        Start Localization Service
+        - Parameter appKey: API key
+        - Parameter live: should enable dynamic update
+    */
     public static func start(appKey:String, live:Bool){
         self.appKey = appKey
         initialLanguage();
@@ -70,9 +83,11 @@ public class Localization {
         
     }
     
-    /// Start Localization Service
-    /// - parameter appKey: API key
-    /// - parameter useSettings: Use the settings bundle
+    /**
+        Start Localization Service
+        - Parameter appKey: API key
+        - Parameter useSettings: Use the settings bundle
+    */
     public static func start(appKey:String, useSettings:Bool){
         self.appKey = appKey
         
@@ -82,8 +97,10 @@ public class Localization {
         initialLanguage();
     }
     
-    /// Start Localization Service
-    /// - parameter appKey: API key
+    /**
+        Start Localization Service
+        - Parameter appKey: API key
+    */
     public static func start(appKey:String){
         self.appKey = appKey
         initialLanguage();
@@ -99,17 +116,21 @@ public class Localization {
     }
     
     
-    /// Save localization to local storage
-    /// - parameter code: language 2 character code
-    /// - parameter translation: translations associated with the language
+    /**
+        Save localization to local storage
+        - parameter code: language 2 character code
+        - parameter translation: translations associated with the language
+     */
     public static func saveLanguageToDisk(code:String, translation:[AnyHashable:String]){
         let standard = UserDefaults.standard;
         standard.set(translation, forKey: "\(self.appKey!)_\(code)");
         standard.synchronize()
     }
     
-    /// Load localization from local storage
-    /// - parameter code: language 2 character code
+    /**
+        Load localization from local storage
+        - Parameter code: language 2 character code
+    */
     public static func loadLanguageFromDisk(code:String){
         let standard = UserDefaults.standard
         guard let data = standard.object(forKey: "\(self.appKey!)_\(code)") as? [AnyHashable : String] else {
@@ -119,8 +140,10 @@ public class Localization {
         NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
     }
     
-    /// Request localization
-    /// - parameter code: language 2 character code
+    /**
+        Request localization
+        - Parameter code: language 2 character code
+     */
     private static func loadLanguage(code:String){
         self.loadLanguageFromDisk(code: code);
         let config = URLSessionConfiguration.default
@@ -148,21 +171,27 @@ public class Localization {
             }.resume()
     }
     
-    /// Request Available Languages
+    /**
+        Request Available Languages
+    */
     public static func availableLanguages(_ completion: @escaping ([Language]) -> Swift.Void){
         loadAvailableLanguages (languageCode: self.languageCode!) { (languages) in
             completion(languages)
         }
     }
     
-    /// Request Available Languages
+    /**
+        Request Available Languages
+    */
     public static func availableLanguages(languageCode:String,_ completion: @escaping ([Language]) -> Swift.Void){
         loadAvailableLanguages (languageCode: languageCode) { (languages) in
             completion(languages)
         }
     }
     
-    /// Load available languages from server
+    /**
+        Load available languages from server
+    */
     private static func loadAvailableLanguages(languageCode:String, _ completion: @escaping ([Language]) -> Swift.Void){
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -198,7 +227,9 @@ public class Localization {
     
     
     
-    /// Load initial language
+    /**
+        Load initial language
+    */
     private static func initialLanguage(){
         let url = URL(string: "\(server)/app/#/app/\(appKey!)")
         print("LocalizationKit:", url!)
@@ -210,24 +241,32 @@ public class Localization {
         setLanguage(currentLanguage)
     }
     
-    /// Reset to device's natural language
+    /**
+        Reset to device's natural language
+    */
     public func resetToDeviceLanguage(){
         self.resetToDeviceLanguage();
     }
     
-    /// Get the Notification.Name for a Localization Key for a Highlight event
-    /// - parameter localizationKey: localization key for element
+    /**
+        Get the Notification.Name for a Localization Key for a Highlight event
+        - Parameter localizationKey: localization key for element
+    */
     public static func highlightEvent(localizationKey:String) -> Notification.Name{
         return Notification.Name(rawValue: "LOC_HIGHLIGHT_\(localizationKey)")
     }
     
-    /// Get the Notification.Name for a Localization Key for a Text/Localization event
-    /// - parameter localizationKey: localization key for element
+    /**
+        Get the Notification.Name for a Localization Key for a Text/Localization event
+        - Parameter localizationKey: localization key for element
+    */
     public static func localizationEvent(localizationKey:String) -> Notification.Name{
         return Notification.Name(rawValue: "LOC_TEXT_\(localizationKey)")
     }
     
-    /// Start socket server
+    /**
+        Start socket server
+    */
     private static func startSocket(){
         let url = URL(string: server)
         socket = SocketIOClient(socketURL: url!)
@@ -264,7 +303,9 @@ public class Localization {
         self.sendMessage(type: "join", data: ["room":name])
     }
     
-    /// Subscribe to current language updates
+    /**
+        Subscribe to current language updates
+    */
     private static func joinLanguageRoom(){
         let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
         joinRoom(name:languageRoom)
@@ -274,7 +315,9 @@ public class Localization {
         self.sendMessage(type: "leave", data: ["room":name])
     }
     
-    /// Subscribe to current language updates
+    /**
+        Subscribe to current language updates
+     */
     private static func leaveLanguageRoom(){
         if self.appKey != nil && self.languageCode != nil {
             let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
@@ -288,8 +331,10 @@ public class Localization {
         }
     }
     
-    /// Set Language Code
-    /// - parameter language: language 2 character code
+    /**
+        Set Language Code
+        - Parameter language: language 2 character code
+    */
     public static func setLanguage(_ language:String){
         if languageCode != language {
             self.leaveLanguageRoom();
@@ -299,9 +344,11 @@ public class Localization {
         }
     }
     
-    /// Get translation for text
-    /// - parameter key: the unique translation text identifier
-    /// - parameter alternate: the default text for this key
+    /**
+        Get translation for text
+        - Parameter key: the unique translation text identifier
+        - Parameter alternate: the default text for this key
+    */
     public static func get(_ key:String, alternate:String) -> String{
         let m = self.loadedLanguageTranslations
         if m == nil {
