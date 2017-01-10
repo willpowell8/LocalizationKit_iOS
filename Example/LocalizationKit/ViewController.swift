@@ -8,6 +8,7 @@
 
 import UIKit
 import LocalizationKit
+import MBProgressHUD
 
 class ViewController: UIViewController {
 
@@ -21,13 +22,22 @@ class ViewController: UIViewController {
     
     @IBAction func changeLanguage(_ sender:AnyObject){
         let localizedString = "Select Language".localize
-        print("\(localizedString!)");
-        
         let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        
+        print("\(localizedString!)");
         Localization.availableLanguages { (languages) in
             for language in languages {
-                let action = UIAlertAction(title: language.localizedName, style: .default, handler: {(alert: UIAlertAction!) in Localization.setLanguage(language.key)
+                let action = UIAlertAction(title: language.localizedName, style: .default, handler: {(alert: UIAlertAction!) in
+                    DispatchQueue.main.async(execute: {
+                        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+                        hud.label.text = "Loading ..."
+                        hud.mode = .indeterminate
+                        Localization.setLanguage(language.key, {
+                            print("Language loaded");
+                            DispatchQueue.main.async(execute: {
+                                hud.hide(animated: true);
+                            });
+                        })
+                    })
                 })
                 alertController.addAction(action)
             }

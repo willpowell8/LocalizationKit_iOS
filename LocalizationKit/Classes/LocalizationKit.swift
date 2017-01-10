@@ -139,12 +139,21 @@ public class Localization {
         self.loadedLanguageTranslations = data;
         NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
     }
+    /**
+     Request localization
+     - Parameter code: language 2 character code
+     */
+    private static func loadLanguage(code:String){
+        self.loadLanguage(code: code) { 
+            return;
+        }
+    }
     
     /**
         Request localization
         - Parameter code: language 2 character code
      */
-    private static func loadLanguage(code:String){
+    private static func loadLanguage(code:String, _ completion: @escaping () -> Swift.Void){
         self.loadLanguageFromDisk(code: code);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -162,7 +171,9 @@ public class Localization {
                     saveLanguageToDisk(code: code, translation: self.loadedLanguageTranslations!);
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
-                    
+                    if completion != nil {
+                        completion();
+                    }
                 } catch {
                     print("error serializing JSON: \(error)")
                 }
@@ -336,11 +347,23 @@ public class Localization {
         - Parameter language: language 2 character code
     */
     public static func setLanguage(_ language:String){
+        self.setLanguage(language) { 
+            
+        }
+    }
+    
+    /**
+        Set Language Code with completion call back
+        - Parameter language: language 2 character code
+        - Parameter completion: function called when language has been loaded
+     */
+    public static func setLanguage(_ language:String, _ completion: @escaping () -> Swift.Void){
         if languageCode != language {
             self.leaveLanguageRoom();
             languageCode = language
-            loadLanguage(code: language);
-            //NotificationCenter.default.post(name: Notification.Name(rawValue: "LOCALIZATION_CHANGED"), object: self)
+            self.loadLanguage(code: language, { 
+                completion();
+            })
         }
     }
     
