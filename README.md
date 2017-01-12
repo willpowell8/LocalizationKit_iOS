@@ -87,6 +87,9 @@ let resultText = Localization.get("Localization.Key", alternate: "default label 
 ## Localization Keys
 Localization Keys are the unique identifiers that allow you to assign localization to the correct part within your app. You can use any string as a device identifier, however the application has some features to make live easier if you use dot separation methodology: ie. Product.Details.Label
 
+## Caching
+LocalizationKit internalizes the caching of the localizations and translations that you have translated. Currently once a languages is loaded from the server it is stored locally for offline and subsequent use. It is updated everytime the app is reopened where by the local version is first loaded and then replaced by the server version.
+
 ## Other Functions
 
 #### Set language
