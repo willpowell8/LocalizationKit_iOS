@@ -1,5 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 1.1.4 - update to add Localization.parse
 ### 1.1.3 - update to support function call on language load complete
 ### 1.1.2 - update of socket io library
 ### 1.1.1 - Support for MacOSX

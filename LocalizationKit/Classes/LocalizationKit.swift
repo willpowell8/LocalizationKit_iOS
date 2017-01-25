@@ -27,6 +27,15 @@ public class Localization {
     public static var server:String = "https://www.localizationkit.com";
     
     /**
+        Trim localizationkey
+    */
+    public static func parse(str:String)->String{
+        var newString = str.replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
+        let character = CharacterSet(charactersIn:"0123456789.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
+        return newString.trimmingCharacters(in: character);
+    }
+    
+    /**
         Current language code
     */
     public static var languageCode:String?

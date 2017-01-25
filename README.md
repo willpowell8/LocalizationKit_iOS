@@ -90,6 +90,8 @@ Localization Keys are the unique identifiers that allow you to assign localizati
 ## Caching
 LocalizationKit internalizes the caching of the localizations and translations that you have translated. Currently once a languages is loaded from the server it is stored locally for offline and subsequent use. It is updated everytime the app is reopened where by the local version is first loaded and then replaced by the server version.
 
+TO DO - add a build phase script that can pull first version of the 
+
 ## Other Functions
 
 #### Set language

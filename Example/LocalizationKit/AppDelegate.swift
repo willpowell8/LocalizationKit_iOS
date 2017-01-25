@@ -22,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(defaults: appDefaults)
         UserDefaults.standard.synchronize()
         
+        
+        let str = Localization.parse(str:"Name*")
+        let str2 = Localization.parse(str:"Hello how are you !?>")
+        print("\(str)")
+        print("\(str2)")
         // LOCALIZATION KIT START DEFINED HERE
         Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", useSettings:true)
         Localization.availableLanguages { (languages) in
