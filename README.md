@@ -111,6 +111,18 @@ Localization.availableLanguages { (languages) in
 Localization.resetToDeviceLanguage()
 ```
 
+#### Show debug Strings
+```swift
+Localization.ifEmptyShowKey = true
+```
+
+#### Set Default Language
+The default language is the language that you have built the application in and will be used for passing to the backend for showing strings and data.
+```swift
+Localization.defaultLangauageCode = "en"
+```
+
+
 ## Events
 If you enable the live update process then you will be able to listen to localization events. These events are:
 

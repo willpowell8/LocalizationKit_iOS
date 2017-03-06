@@ -26,6 +26,15 @@ public class Localization {
     */
     public static var server:String = "https://www.localizationkit.com";
     
+    
+    /**
+     
+    */
+    
+    public static var ifEmptyShowKey = false
+    
+    public static var defaultLangauageCode = "en"
+    
     /**
         Trim localizationkey
     */
@@ -383,20 +392,32 @@ public class Localization {
     */
     public static func get(_ key:String, alternate:String) -> String{
         let m = self.loadedLanguageTranslations
+        let keyString = self.languageCode != nil ? "\(self.languageCode!)-\(key)" : "NA-\(key)"
         if m == nil {
+            if alternate.characters.count == 0 && ifEmptyShowKey == true {
+                return keyString
+            }
             return alternate
         }
         
         guard let localisation = loadedLanguageTranslations?[key] else {
             if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
-                if alternate != key {
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!, "raw":alternate])
+                if alternate != key && alternate != keyString {
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":defaultLangauageCode, "raw":alternate])
                 }else{
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":languageCode!])
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":defaultLangauageCode])
                 }
             }
+            
+            if alternate.characters.count == 0 && ifEmptyShowKey == true {
+                return keyString
+            }
             return alternate;
+        }
+        
+        if localisation.characters.count == 0 && ifEmptyShowKey == true {
+            return keyString
         }
         return localisation
     }
