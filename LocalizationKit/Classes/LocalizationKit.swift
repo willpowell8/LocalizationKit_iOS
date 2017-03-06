@@ -33,13 +33,13 @@ public class Localization {
     
     public static var ifEmptyShowKey = false
     
-    public static var defaultLangauageCode = "en"
+    public static var buildLangauageCode = "en"
     
     /**
         Trim localizationkey
     */
     public static func parse(str:String)->String{
-        var newString = str.replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
+        let newString = str.replacingOccurrences(of: " ", with: "", options: .literal, range: nil)
         let character = CharacterSet(charactersIn:"0123456789.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
         return newString.trimmingCharacters(in: character);
     }
@@ -189,9 +189,7 @@ public class Localization {
                     saveLanguageToDisk(code: code, translation: self.loadedLanguageTranslations!);
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
-                    if completion != nil {
-                        completion();
-                    }
+                    completion();
                 } catch {
                     print("error serializing JSON: \(error)")
                 }
@@ -404,9 +402,9 @@ public class Localization {
             if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
                 if alternate != key && alternate != keyString {
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":defaultLangauageCode, "raw":alternate])
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLangauageCode, "raw":alternate])
                 }else{
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":defaultLangauageCode])
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLangauageCode])
                 }
             }
             
