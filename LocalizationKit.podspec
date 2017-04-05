@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LocalizationKit'
-  s.version          = '1.1.6'
+  s.version          = '1.1.7'
   s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
   s.description      = <<-DESC
@@ -25,5 +25,5 @@ LocalizationKit is the easiest way to manage your texts and translations. It rem
   s.osx.deployment_target = '10.10'
   s.source_files = 'LocalizationKit/Classes/**/*'
 
-  s.dependency 'Socket.IO-Client-Swift', '~>8.2.0'
+  s.dependency 'Socket.IO-Client-Swift', '~>8.3.3'
 end
