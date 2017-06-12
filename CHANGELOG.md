@@ -1,5 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 1.1.8 - update to support date formatter
 ### 1.1.6 - update default language to build language and removed warnings
 ### 1.1.5 - update to add default language and show debug strings in UI
 ### 1.1.4 - update to add Localization.parse

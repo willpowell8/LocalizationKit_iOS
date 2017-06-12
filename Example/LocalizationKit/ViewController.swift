@@ -26,6 +26,13 @@ class ViewController: UIViewController {
         alertController.presentationController
         print("\(localizedString!)");
         Localization.availableLanguages { (languages) in
+            
+            let d = DateFormatter()
+            d.dateFormat = "dd MMM yyyy"
+            d.LocalizeKey = "General.DateFormatter"
+            let dStr = d.string(from: Date())
+            print(dStr)
+            
             for language in languages {
                 let action = UIAlertAction(title: language.localizedName, style: .default, handler: {(alert: UIAlertAction!) in
                     DispatchQueue.main.async(execute: {
@@ -52,7 +59,6 @@ class ViewController: UIViewController {
                 }
             }
             DispatchQueue.main.async(execute: {
-                
                 self.present(alertController, animated: true, completion:{})
             });
         }

@@ -74,6 +74,7 @@ Localization kit has support for Xcode UI development. The process is as simple 
 - UIBarButtonItem
 - UITextField
 - UIButton
+- DateFormatter
 
 ## Using from Code
 There are several ways of using the localization system from code without using storyboard or interface builder. The first is from any string you can call the .localize to call the localized string for it. This does not give you the live updates of the text but provides you with the text at the moment you call it.
@@ -139,6 +140,16 @@ Localization.highlightEvent(localizationKey: String)
 
 ```swift
 NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil)
+```
+
+#### Example Date Formatter
+Date format as it is a single call it does adhere to the live updates. Note the dateFormat String must be set before the Localization Key
+```swift
+let d = DateFormatter()
+d.dateFormat = "dd MMM yyyy"
+d.LocalizeKey = "General.DateFormatter"
+let dStr = d.string(from: Date())
+print(dStr)
 ```
 
 
