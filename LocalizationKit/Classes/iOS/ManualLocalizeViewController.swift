@@ -5,7 +5,7 @@
 //  Created by Will Powell on 28/07/2017.
 //
 //
-
+#if os(iOS)
 import UIKit
 
 class ManualLocalizeViewController: UIViewController {
@@ -46,3 +46,4 @@ class ManualLocalizeViewController: UIViewController {
     }
 
 }
+#endif
