@@ -55,6 +55,15 @@ Localization.start(appKey: "bed920eb-9802-4a2c-a8c0-69194729d69d", useSettings: 
 Localization.liveEnabled = true
 ```
 
+### Enabling Inline Edits
+As part of the application you can enable the inline editing of the localizations using long press on fields.
+<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationKit-Inline.png" alt="LocalizationKit Inline Edit" title="LocalizationKit Inline Edit">
+Elements supporting Inline Edit: UILabel
+#### Toggle it within app
+```swift
+Localization.allowInlineEdit = true
+```
+
 ## Using Interface Builder
 Localization kit has support for Xcode UI development. The process is as simple as:
 - install the cocoapod

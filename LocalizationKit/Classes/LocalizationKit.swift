@@ -32,6 +32,13 @@ public class Localization {
     */
     
     public static var ifEmptyShowKey = false
+    public static var allowInlineEdit = false {
+        didSet{
+            if oldValue != allowInlineEdit {
+                NotificationCenter.default.post(name: Localization.INLINE_EDIT_CHANGED, object: nil)
+            }
+        }
+    }
     
     public static var buildLangauageCode = "en"
     
@@ -63,6 +70,7 @@ public class Localization {
         Notification event fired when language is initially loaded of localization text is changed
     */
     public static var ALL_CHANGE = Notification.Name(rawValue: "LOCALIZATION_CHANGED")
+    public static var INLINE_EDIT_CHANGED = Notification.Name(rawValue: "LOCALIZATION_INLINE_EDIT")
     
     private static var _liveEnabled:Bool = false;
     
@@ -131,6 +139,8 @@ public class Localization {
             self.loadLanguage(code: self.languageCode!);
         }
         self.liveEnabled = val;
+        
+        self.allowInlineEdit = userDefaults.bool(forKey: "live_localization_inline");
     }
     
     
@@ -384,6 +394,22 @@ public class Localization {
     }
     
     /**
+ 
+    */
+    
+    public static func set(_ key:String,value:String, language:String? = nil){
+        var data = ["appuuid":Localization.appKey!, "key":key, "value":value, "language": Localization.languageCode!]
+        if language != nil {
+            data["language"] = language
+        }
+        if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
+            self.loadedLanguageTranslations?[key] = value
+            self.sendMessage(type: "translation:save", data: data)
+            NotificationCenter.default.post(name: self.localizationEvent(localizationKey: key), object: self)
+        }
+    }
+    
+    /**
         Get translation for text
         - Parameter key: the unique translation text identifier
         - Parameter alternate: the default text for this key
@@ -420,3 +446,5 @@ public class Localization {
         return localisation
     }
 }
+
+
