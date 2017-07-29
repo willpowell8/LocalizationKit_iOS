@@ -57,8 +57,10 @@ Localization.liveEnabled = true
 
 ### Enabling Inline Edits
 As part of the application you can enable the inline editing of the localizations using long press on fields.
+<p align="center" >
 <img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationKit-Inline.png" alt="LocalizationKit Inline Edit" title="LocalizationKit Inline Edit">
-Elements supporting Inline Edit: UILabel
+</p>
+<p>Elements supporting Inline Edit: UILabel, UIButton</p>
 #### Toggle it within app
 ```swift
 Localization.allowInlineEdit = true

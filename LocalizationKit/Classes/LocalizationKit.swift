@@ -390,6 +390,8 @@ public class Localization {
             self.loadLanguage(code: language, { 
                 completion();
             })
+        }else{
+            completion();
         }
     }
     

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LocalizationKit'
-  s.version          = '1.2.2'
+  s.version          = '2.0.0'
   s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
   s.description      = <<-DESC
@@ -24,10 +24,12 @@ LocalizationKit is the easiest way to manage your texts and translations. It rem
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
   s.source_files = 'LocalizationKit/Classes/**/*'
+  s.ios.source_files = 'LocalizationKit/iOSClasses/**/*'
+  s.osx.source_files = 'LocalizationKit/OSXClasses/**/*'
 
   s.dependency 'Socket.IO-Client-Swift', '~>8.3.3'
 
   s.ios.resource_bundles = {
-    'LocalizationKit' => ['LocalizationKit/Assets/*.{storyboard,xib}']
+    'LocalizationKit' => ['LocalizationKit/iOSAssets/*.{storyboard,xib}']
   }
 end
