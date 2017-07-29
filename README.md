@@ -1,18 +1,11 @@
-
-<p align="center" >
-<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationLogo.png" alt="LocalizationKit" title="LocalizationKit">
-</p>
-#LocalizationKit
-[![CI Status](http://img.shields.io/travis/Will Powell/LocalizationKit.svg?style=flat)](https://travis-ci.org/Will Powell/LocalizationKit)
+![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationLogo.png "iOS Localization Logo")
+# LocalizationKit
 [![Version](https://img.shields.io/cocoapods/v/LocalizationKit.svg?style=flat)](http://cocoapods.org/pods/LocalizationKit)
 [![License](https://img.shields.io/cocoapods/l/LocalizationKit.svg?style=flat)](http://cocoapods.org/pods/LocalizationKit)
 [![Platform](https://img.shields.io/cocoapods/p/LocalizationKit.svg?style=flat)](http://cocoapods.org/pods/LocalizationKit)
 
 Localization kit is a powerful to localize texts and translation management tool. I am a developer and invariably I get the questions 'Can you just change this text?' or 'Can you add another language?' I have designed this framework so you can manage these translations and texts without having to recompile, resubmit and without the need to use developers. Essentially take out all of the pain.
-
-<p align="center" >
-<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/Localization.gif" alt="LocalizationKit" title="LocalizationKit">
-</p>
+![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/Localization.gif "Realtime iOS Localize your app")
 
 ## How does it work
 Localization Kit quickly and easily integrates into your app using Cocoapods. Then it connects to services from [LocalizationKit.com](http://www.localizationkit.com/app/) which are free to use and manage. Then as you create items in your iOS app the text keys become available instantly in the online web UI. From there you can change the text and it is reflected within app in realtime (as you type any key).
@@ -57,10 +50,8 @@ Localization.liveEnabled = true
 
 ### Enabling Inline Edits
 As part of the application you can enable the inline editing of the localizations using long press on fields.
-<p align="center" >
-<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationKit-Inline.png" alt="LocalizationKit Inline Edit" title="LocalizationKit Inline Edit">
-</p>
-<p>Elements supporting Inline Edit: UILabel, UIButton</p>
+![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationKit-Inline.png "Inline Localization Editor")
+Elements supporting Inline Edit: UILabel, UIButton
 #### Toggle it within app
 ```swift
 Localization.allowInlineEdit = true
@@ -74,8 +65,8 @@ Localization kit has support for Xcode UI development. The process is as simple 
 - open attribute selector
 - set a Localize Key
 - run app and the key will be available online
-<img src="https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png" alt="LocalizationKit" title="LocalizationKit">
-</p>
+
+![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/iOS_Localization_IBInspector_Xcode_1_1.png "Quick and Easy localization using interface builder")
 
 ### Supported Components
 - UILabel
@@ -114,7 +105,7 @@ Localization.setLanguage("de")
 #### Get Available Languages
 ```swift
 Localization.availableLanguages { (languages) in
-    // Languages is an array of [Language] which has properties localizedName and key
+// Languages is an array of [Language] which has properties localizedName and key
 }
 ```
 
