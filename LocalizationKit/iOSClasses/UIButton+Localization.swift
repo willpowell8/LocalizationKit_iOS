@@ -39,9 +39,11 @@ extension UIButton {
     /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
-        let normalKey = "\(self.LocalizeKey!).Normal";
-        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: normalKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: normalKey), object: nil)
+        if let localizeKey = self.LocalizeKey {
+            let normalKey = "\(localizeKey).Normal";
+            NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: normalKey), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: normalKey), object: nil)
+        }
         
         inlineEditAddGestureRecognizer()
     }

@@ -38,9 +38,11 @@ extension UITextField {
     /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
-        let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
-        NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil)
+        if let localizeKey = self.LocalizeKey {
+            let placeHolderKey = "\(localizeKey).Placeholder";
+            NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil)
+        }
     }
     
     /// update localization from notification on main thread
