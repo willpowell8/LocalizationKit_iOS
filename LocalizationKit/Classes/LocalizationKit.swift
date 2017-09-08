@@ -54,7 +54,29 @@ public class Localization {
     /**
         Current language code
     */
-    public static var languageCode:String?
+    public static var languageCode:String? {
+        didSet{
+            saveSelectedLanguageCode()
+        }
+    }
+    
+    private static func saveSelectedLanguageCode(){
+        let standard = UserDefaults.standard;
+        standard.set(languageCode, forKey: "\(self.appKey!)_SELECTED");
+        standard.synchronize()
+    }
+    
+    private static func loadSelectedLanguageCode()->String{
+        let standard = UserDefaults.standard;
+        if let val = standard.string(forKey: "\(self.appKey!)_SELECTED") {
+            return val
+        }
+        let defs = UserDefaults.standard
+        let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
+        let current:String  = languages.object(at: 0) as! String
+        let currentParts = current.characters.split{$0 == "-"}.map(String.init)
+        return currentParts[0] as String
+    }
     
     /**
         core socket
@@ -270,11 +292,7 @@ public class Localization {
     private static func initialLanguage(){
         let url = URL(string: "\(server)/app/#/app/\(appKey!)")
         print("LocalizationKit:", url!)
-        let defs = UserDefaults.standard
-        let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
-        let current:String  = languages.object(at: 0) as! String
-        let currentParts = current.characters.split{$0 == "-"}.map(String.init)
-        let currentLanguage:String = currentParts[0] as String
+        let currentLanguage = loadSelectedLanguageCode()
         setLanguage(currentLanguage)
     }
     

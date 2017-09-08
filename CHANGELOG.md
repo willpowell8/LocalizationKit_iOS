@@ -1,6 +1,8 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
-### 1.2.0 - addition of inline edit
+### 2.0.2 - update to persist selected langauge
+when a user changes the language it saves the value
+### 2.0.1 - addition of inline edit
 update to add the ability to inline edit the localizations
 ### 1.1.8 - update to support date formatter
 ### 1.1.6 - update default language to build language and removed warnings
