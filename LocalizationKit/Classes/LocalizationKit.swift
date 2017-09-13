@@ -60,6 +60,20 @@ public class Localization {
         }
     }
     
+    public static var language639Code:String? {
+        get {
+            if let langCode = languageCode {
+                if langCode.contains("-") {
+                    let languageParts = langCode.components(separatedBy: "-")
+                    return languageParts[0]
+                }else{
+                    return languageCode
+                }
+            }
+            return nil
+        }
+    }
+    
     private static func saveSelectedLanguageCode(){
         let standard = UserDefaults.standard;
         standard.set(languageCode, forKey: "\(self.appKey!)_SELECTED");
