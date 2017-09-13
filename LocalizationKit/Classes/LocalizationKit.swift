@@ -40,7 +40,7 @@ public class Localization {
         }
     }
     
-    public static var buildLangauageCode = "en"
+    public static var buildLanguageCode = "en"
     
     /**
         Trim localizationkey
@@ -66,17 +66,49 @@ public class Localization {
         standard.synchronize()
     }
     
-    private static func loadSelectedLanguageCode()->String{
+    private static func loadSelectedLanguageCode(_ completion: @escaping (_ languageKey:String?) -> Swift.Void)->Swift.Void{
         let standard = UserDefaults.standard;
         if let val = standard.string(forKey: "\(self.appKey!)_SELECTED") {
-            return val
+            //return val
         }
         let defs = UserDefaults.standard
         let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
         let current:String  = languages.object(at: 0) as! String
-        let currentParts = current.characters.split{$0 == "-"}.map(String.init)
-        return currentParts[0] as String
+        //let currentParts = current.characters.split{$0 == "-"}.map(String.init)
+        self.availableLanguages { (languages) in
+            if let language = findLanguage(languages: languages, languageKey: current) {
+                return completion(language.key)
+            }
+            if current.contains("-") {
+                let currentComponents = current.components(separatedBy: "-")
+                let reducedCurrentComponents = currentComponents[0..<(currentComponents.count-1)]
+                let newCurrent = reducedCurrentComponents.joined(separator: "-")
+                if let language = findLanguage(languages: languages, languageKey: newCurrent) {
+                    return completion(language.key)
+                }
+                if newCurrent.contains("-") {
+                    let finalCurrentComponents = newCurrent.components(separatedBy: "-")
+                    let finalReducedCurrentComponents = finalCurrentComponents[0..<(finalCurrentComponents.count-1)]
+                    let finalNewCurrent = finalReducedCurrentComponents.joined(separator: "-")
+                    if let language = findLanguage(languages: languages, languageKey: finalNewCurrent) {
+                        return completion(language.key)
+                    }
+                }
+            }
+            return completion(nil)
+        }
     }
+    
+    private static func findLanguage(languages:[Language], languageKey:String)->Language? {
+        let foundLanguage = languages.filter({ (language) -> Bool in
+            return language.key == languageKey
+        })
+        if foundLanguage.count == 1 {
+            return foundLanguage[0]
+        }
+        return nil
+    }
+    
     
     /**
         core socket
@@ -234,7 +266,8 @@ public class Localization {
         Request Available Languages
     */
     public static func availableLanguages(_ completion: @escaping ([Language]) -> Swift.Void){
-        loadAvailableLanguages (languageCode: self.languageCode!) { (languages) in
+        let language = self.languageCode ?? "en"
+        loadAvailableLanguages (languageCode: language) { (languages) in
             completion(languages)
         }
     }
@@ -267,10 +300,11 @@ public class Localization {
                     var languagesOutput = [Language]()
                     for i in 0..<languages.count {
                         let languageKey = languages[i]["key"] as! String;
-                        let languageName = languages[i]["name"] as! [String:String];
                         var languageNameLocalized = languageKey
-                        if languageName[languageCode] != nil {
-                            languageNameLocalized = languageName[languageCode]!
+                        if let languageName = languages[i]["name"] as? [String:Any] {
+                            if let langCode = languageName[languageCode] as? String {
+                                languageNameLocalized = langCode
+                            }
                         }
                         languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey))
                     }
@@ -292,8 +326,13 @@ public class Localization {
     private static func initialLanguage(){
         let url = URL(string: "\(server)/app/#/app/\(appKey!)")
         print("LocalizationKit:", url!)
-        let currentLanguage = loadSelectedLanguageCode()
-        setLanguage(currentLanguage)
+        loadSelectedLanguageCode { (language) in
+            guard let lang = language else {
+                print("No language available")
+                return
+            }
+            setLanguage(lang)
+        }
     }
     
     /**
@@ -361,8 +400,17 @@ public class Localization {
     /**
         Subscribe to current language updates
     */
+    
+    private static var hasJoinedLanguageRoom:Bool = false
     private static func joinLanguageRoom(){
-        let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
+        guard liveEnabled == true else {
+            return
+        }
+        guard let appKey = self.appKey, let langaugeCode = self.languageCode else{
+            return
+        }
+        hasJoinedLanguageRoom = true
+        let languageRoom = "\(appKey)_\(languageCode)"
         joinRoom(name:languageRoom)
     }
     
@@ -448,9 +496,9 @@ public class Localization {
             if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
                 if alternate != key && alternate != keyString {
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLangauageCode, "raw":alternate])
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLanguageCode, "raw":alternate])
                 }else{
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLangauageCode])
+                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLanguageCode])
                 }
             }
             
