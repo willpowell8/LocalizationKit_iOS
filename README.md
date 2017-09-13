@@ -122,7 +122,7 @@ Localization.ifEmptyShowKey = true
 #### Set Default Language
 The default language is the language that you have built the application in and will be used for passing to the backend for showing strings and data.
 ```swift
-Localization.defaultLangauageCode = "en"
+Localization.defaultLanguageCode = "en"
 ```
 
 
