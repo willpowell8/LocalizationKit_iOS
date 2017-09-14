@@ -156,8 +156,8 @@ public class Localization {
                     startSocket();
                 }else{
                     // end socket
-                    if((self.socket) != nil){
-                        self.socket?.disconnect()
+                    if let socket = self.socket {
+                       socket.disconnect()
                     }
                 }
             }
@@ -420,11 +420,11 @@ public class Localization {
         guard liveEnabled == true else {
             return
         }
-        guard let appKey = self.appKey, let langaugeCode = self.languageCode else{
+        guard let appKey = self.appKey, let langCode = self.languageCode else{
             return
         }
         hasJoinedLanguageRoom = true
-        let languageRoom = "\(appKey)_\(languageCode)"
+        let languageRoom = "\(appKey)_\(langCode)"
         joinRoom(name:languageRoom)
     }
     
