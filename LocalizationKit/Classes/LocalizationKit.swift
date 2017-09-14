@@ -83,7 +83,7 @@ public class Localization {
     private static func loadSelectedLanguageCode(_ completion: @escaping (_ languageKey:String?) -> Swift.Void)->Swift.Void{
         let standard = UserDefaults.standard;
         if let val = standard.string(forKey: "\(self.appKey!)_SELECTED") {
-            //return val
+            return val
         }
         let defs = UserDefaults.standard
         let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
