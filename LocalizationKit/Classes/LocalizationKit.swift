@@ -20,7 +20,7 @@ public class Language {
         self.localizedNames = localizedNames
     }
     
-    public func localizedName(forLangageCode languageCode:String)->String?{
+    public func name(forLangageCode languageCode:String)->String?{
         return localizedNames?[languageCode] as? String
     }
 }
