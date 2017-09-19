@@ -12,10 +12,16 @@ import SocketIO
 public class Language {
     public var localizedName:String = "";
     public var key:String = "";
+    public var localizedNames:[String:Any]? // localized language names
     
-    init (localizedName:String, key:String){
+    init (localizedName:String, key:String, localizedNames:[String:Any]?){
         self.key = key;
         self.localizedName = localizedName
+        self.localizedNames = localizedNames
+    }
+    
+    public func localizedName(forLangageCode languageCode:String)->String?{
+        return localizedNames?[languageCode] as? String
     }
 }
 
@@ -315,12 +321,14 @@ public class Localization {
                     for i in 0..<languages.count {
                         let languageKey = languages[i]["key"] as! String;
                         var languageNameLocalized = languageKey
+                        var languageNames = [String:Any]()
                         if let languageName = languages[i]["name"] as? [String:Any] {
+                            languageNames = languageName
                             if let langCode = languageName[languageCode] as? String {
                                 languageNameLocalized = langCode
                             }
                         }
-                        languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey))
+                        languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames))
                     }
                     print("Completed");
                     completion(languagesOutput)
