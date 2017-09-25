@@ -9,9 +9,9 @@
 import Foundation
 import SocketIO
 
-public class Language {
+public class Language:NSObject,NSCoding {
     public var localizedName:String = "";
-    public var key:String = "";
+    public var key:String = ""; // language code eg. en, zh-Hans
     public var localizedNames:[String:Any]? // localized language names
     
     init (localizedName:String, key:String, localizedNames:[String:Any]?){
@@ -20,8 +20,35 @@ public class Language {
         self.localizedNames = localizedNames
     }
     
+    required convenience public init?(coder decoder: NSCoder) {
+        if let localizedNameTemp = decoder.decodeObject(forKey: "localizedName") as? String {
+            let keyTemp = decoder.decodeObject(forKey: "key") as? String
+            if let localizedNamesTemp = decoder.decodeObject(forKey: "localizedNames") as? [String:String] {
+                self.init(localizedName: localizedNameTemp, key: keyTemp!, localizedNames: localizedNamesTemp)
+            }else{
+                self.init(localizedName: localizedNameTemp, key: keyTemp!, localizedNames: nil)
+            }
+        }else{
+            self.init(localizedName: "English", key: "en", localizedNames: nil)
+        }
+    }
+    
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.localizedName, forKey: "localizedName")
+        aCoder.encode(self.key, forKey: "key")
+        if let localizationNames = self.localizedNames {
+            aCoder.encode(localizationNames, forKey: "localizedNames")
+        }
+    }
+    
     public func name(forLangageCode languageCode:String)->String?{
         return localizedNames?[languageCode] as? String
+    }
+    
+    public var localName:String?{
+        get{
+            return name(forLangageCode: key)
+        }
     }
 }
 
@@ -34,10 +61,39 @@ public class Localization {
     
     
     /**
-     
+         If the keys are empty show the localization key eg. en.Home.Title to highlight the missing keys
     */
-    
     public static var ifEmptyShowKey = false
+    
+    /**
+         core socket
+     */
+    public static var socket:SocketIOClient?
+    
+    /**
+         App Key
+     */
+    private static var appKey:String?
+    
+    /**
+         Loaded language string
+     */
+    private static var loadedLanguageTranslations:[AnyHashable:String]?
+    
+    /**
+         Notification event fired when language is initially loaded of localization text is changed
+     */
+    public static var ALL_CHANGE = Notification.Name(rawValue: "LOCALIZATION_CHANGED")
+    public static var INLINE_EDIT_CHANGED = Notification.Name(rawValue: "LOCALIZATION_INLINE_EDIT")
+    
+    
+    private static let storageLocation:String = "SELECTED_LANGUAGE"
+    
+    private static var _liveEnabled:Bool = false;
+    
+    /**
+         Allow the inline editor screens using long press on the string field
+     */
     public static var allowInlineEdit = false {
         didSet{
             if oldValue != allowInlineEdit {
@@ -46,6 +102,9 @@ public class Localization {
         }
     }
     
+    /**
+         The build language is the initial language for the current language keys
+     */
     public static var buildLanguageCode = "en"
     
     /**
@@ -61,11 +120,30 @@ public class Localization {
         Current language code
     */
     public static var languageCode:String? {
+        get{
+            return language?.key
+        }
+    }
+    
+    
+    private static var _language:Language? {
         didSet{
             saveSelectedLanguageCode()
         }
     }
     
+    /**
+         Selected current language
+     */
+    public static var language:Language? {
+        get{
+            return _language
+        }
+    }
+    
+    /**
+         Get language iso-639-1 code for selected language
+     */
     public static var language639Code:String? {
         get {
             if let langCode = languageCode {
@@ -80,38 +158,54 @@ public class Localization {
         }
     }
     
+    /**
+         save the current selected language
+     */
     private static func saveSelectedLanguageCode(){
-        let standard = UserDefaults.standard;
-        standard.set(languageCode, forKey: "\(self.appKey!)_SELECTED");
-        standard.synchronize()
+        if let language = self._language {
+            let encodedData = NSKeyedArchiver.archivedData(withRootObject: language)
+            let standard = UserDefaults.standard;
+            standard.set(encodedData, forKey: "\(self.appKey!)_\(storageLocation)");
+            standard.synchronize()
+        }
     }
     
-    private static func loadSelectedLanguageCode(_ completion: @escaping (_ languageKey:String?) -> Swift.Void)->Swift.Void{
+    /**
+         Load current language
+     */
+    private static func loadSelectedLanguageCode(_ completion: @escaping (_ language:Language?) -> Swift.Void)->Swift.Void{
         let standard = UserDefaults.standard;
-        if let val = standard.string(forKey: "\(self.appKey!)_SELECTED") {
-            return completion(val)
+        if let val = standard.data(forKey: "\(self.appKey!)_\(storageLocation)") {
+            if let storedLanguage = NSKeyedUnarchiver.unarchiveObject(with: val) as? Language {
+                return completion(storedLanguage)
+            }
         }
         let defs = UserDefaults.standard
         let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
         let current:String  = languages.object(at: 0) as! String
-        //let currentParts = current.characters.split{$0 == "-"}.map(String.init)
+        languageFromAvailableLanguages(languagecode: current, completion: completion)
+        
+    }
+    
+    private static func languageFromAvailableLanguages(languagecode:String, completion: @escaping (_ language:Language?) -> Swift.Void){
+        let current = languagecode
         self.availableLanguages { (languages) in
             if let language = findLanguage(languages: languages, languageKey: current) {
-                return completion(language.key)
+                return completion(language)
             }
             if current.contains("-") {
                 let currentComponents = current.components(separatedBy: "-")
                 let reducedCurrentComponents = currentComponents[0..<(currentComponents.count-1)]
                 let newCurrent = reducedCurrentComponents.joined(separator: "-")
                 if let language = findLanguage(languages: languages, languageKey: newCurrent) {
-                    return completion(language.key)
+                    return completion(language)
                 }
                 if newCurrent.contains("-") {
                     let finalCurrentComponents = newCurrent.components(separatedBy: "-")
                     let finalReducedCurrentComponents = finalCurrentComponents[0..<(finalCurrentComponents.count-1)]
                     let finalNewCurrent = finalReducedCurrentComponents.joined(separator: "-")
                     if let language = findLanguage(languages: languages, languageKey: finalNewCurrent) {
-                        return completion(language.key)
+                        return completion(language)
                     }
                 }
             }
@@ -119,6 +213,9 @@ public class Localization {
         }
     }
     
+    /**
+         Find a language by code within language array
+     */
     private static func findLanguage(languages:[Language], languageKey:String)->Language? {
         let foundLanguage = languages.filter({ (language) -> Bool in
             return language.key == languageKey
@@ -130,23 +227,7 @@ public class Localization {
     }
     
     
-    /**
-        core socket
-    */
-    public static var socket:SocketIOClient?
     
-    private static var appKey:String?
-    
-    private static var loadedLanguage:String?
-    private static var loadedLanguageTranslations:[AnyHashable:String]?
-    
-    /**
-        Notification event fired when language is initially loaded of localization text is changed
-    */
-    public static var ALL_CHANGE = Notification.Name(rawValue: "LOCALIZATION_CHANGED")
-    public static var INLINE_EDIT_CHANGED = Notification.Name(rawValue: "LOCALIZATION_INLINE_EDIT")
-    
-    private static var _liveEnabled:Bool = false;
     
     /** 
         If live updates are enabled
@@ -209,8 +290,8 @@ public class Localization {
     @objc public static func defaultsChanged(){
         let userDefaults = UserDefaults.standard
         let val = userDefaults.bool(forKey: "live_localization");
-        if(val == true && self.liveEnabled == false && self.languageCode != nil){
-            self.loadLanguage(code: self.languageCode!);
+        if val == true,self.liveEnabled == false, let language = self.language {
+            self.loadLanguage(language);
         }
         self.liveEnabled = val;
         
@@ -245,8 +326,8 @@ public class Localization {
      Request localization
      - Parameter code: language 2 character code
      */
-    private static func loadLanguage(code:String){
-        self.loadLanguage(code: code) { 
+    private static func loadLanguage(_ language:Language){
+        self.loadLanguage(language: language) {
             return;
         }
     }
@@ -255,11 +336,11 @@ public class Localization {
         Request localization
         - Parameter code: language 2 character code
      */
-    private static func loadLanguage(code:String, _ completion: @escaping () -> Swift.Void){
-        self.loadLanguageFromDisk(code: code);
+    private static func loadLanguage(language:Language, _ completion: @escaping () -> Swift.Void){
+        self.loadLanguageFromDisk(code: language.key);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(code)"
+        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(language.key)"
         let url = URL(string: urlString as String)
         session.dataTask(with: url!) {
             (data, response, error) in
@@ -270,7 +351,7 @@ public class Localization {
                         return;
                     }
                     loadedLanguageTranslations = jsonData;
-                    saveLanguageToDisk(code: code, translation: self.loadedLanguageTranslations!);
+                    saveLanguageToDisk(code: language.key, translation: self.loadedLanguageTranslations!);
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
                     completion();
@@ -428,7 +509,7 @@ public class Localization {
         guard liveEnabled == true else {
             return
         }
-        guard let appKey = self.appKey, let langCode = self.languageCode else{
+        guard let appKey = self.appKey, let langCode = self.language?.key else{
             return
         }
         hasJoinedLanguageRoom = true
@@ -461,21 +542,39 @@ public class Localization {
         - Parameter language: language 2 character code
     */
     public static func setLanguage(_ language:String){
-        self.setLanguage(language) { 
-            
+        let languageCode = language
+        self.languageFromAvailableLanguages(languagecode: languageCode) { (language) in
+            if let lang = language {
+                self.setLanguage(lang)
+            }
         }
     }
     
     /**
-        Set Language Code with completion call back
-        - Parameter language: language 2 character code
-        - Parameter completion: function called when language has been loaded
+     Set Language Code with completion call back
+     - Parameter language: language 2 character code
+     - Parameter completion: function called when language has been loaded
      */
     public static func setLanguage(_ language:String, _ completion: @escaping () -> Swift.Void){
-        if languageCode != language {
+        let languageCode = language
+        self.languageFromAvailableLanguages(languagecode: languageCode) { (language) in
+            if let lang = language {
+                self.setLanguage(lang, completion)
+            }
+        }
+    }
+    
+    public static func setLanguage(_ language:Language){
+        self.setLanguage(language) {
+            return;
+        }
+    }
+    
+    public static func setLanguage(_ languageNew:Language, _ completion: @escaping () -> Swift.Void){
+        if language?.key != languageNew.key {
             self.leaveLanguageRoom();
-            languageCode = language
-            self.loadLanguage(code: language, { 
+            _language = languageNew
+            self.loadLanguage(language: languageNew, {
                 completion();
             })
         }else{

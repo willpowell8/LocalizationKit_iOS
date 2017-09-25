@@ -1,5 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 2.0.9 - update to change to main language object
 ### 2.0.6 - fix issue with UINavigationController initial set
 ### 2.0.4 - update to add get 639 language code get property
 ### 2.0.3 - update move to support IEFT language code sets
