@@ -31,7 +31,7 @@ extension UILabel{
     func localizationClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         inlineEditClear()
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
+        if LocalizeKey != nil && (LocalizeKey?.count)! > 0 {
             NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil);
             NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil);
         }

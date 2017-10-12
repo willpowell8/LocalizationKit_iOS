@@ -607,7 +607,7 @@ public class Localization {
         let m = self.loadedLanguageTranslations
         let keyString = self.languageCode != nil ? "\(self.languageCode!)-\(key)" : "NA-\(key)"
         if m == nil {
-            if alternate.characters.count == 0 && ifEmptyShowKey == true {
+            if alternate.count == 0 && ifEmptyShowKey == true {
                 return keyString
             }
             return alternate
@@ -623,13 +623,13 @@ public class Localization {
                 }
             }
             
-            if alternate.characters.count == 0 && ifEmptyShowKey == true {
+            if alternate.count == 0 && ifEmptyShowKey == true {
                 return keyString
             }
             return alternate;
         }
         
-        if localisation.characters.count == 0 && ifEmptyShowKey == true {
+        if localisation.count == 0 && ifEmptyShowKey == true {
             return keyString
         }
         return localisation
