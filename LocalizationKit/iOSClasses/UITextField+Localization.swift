@@ -28,7 +28,7 @@ extension UITextField {
     /// clear previous localization listeners
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
+        if LocalizeKey != nil && (LocalizeKey?.count)! > 0 {
             let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
             NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil);
             NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil);

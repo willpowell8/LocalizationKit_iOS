@@ -30,7 +30,7 @@ extension String {
         gets identifier string from string text. Built of form String.*Your String*
     */
     private func stringLocalizationKey() -> String? {
-        if(self.characters.count > 0){
+        if(self.count > 0){
             var newString = "String.\(self)"
             newString = newString.replacingOccurrences(of: " ", with: ".", options: .literal, range: nil)
             let character = CharacterSet(charactersIn:"0123456789.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ").inverted
