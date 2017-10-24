@@ -112,9 +112,9 @@ extension UILabel{
     /// Inline Editor - gesture recognize Long Press
     func inlineEditorGestureLongPress(_ sender: UILongPressGestureRecognizer)
     {
-        if sender.state == .began {
+        if sender.state == .began, let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             let inline = InlineEditorHandler()
-            inline.showAlert(view: self, localizationKey: self.LocalizeKey!)
+            inline.showAlert(view: self, localizationKey: localizeKey)
         }
     }
     

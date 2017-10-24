@@ -116,8 +116,8 @@ extension UIButton {
     /// Inline Editor - gesture recognize Long Press
     func inlineEditorGestureLongPress(_ sender: UILongPressGestureRecognizer)
     {
-        if sender.state == .began {
-            let normalKey = "\(self.LocalizeKey!).Normal";
+        if sender.state == .began, let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            let normalKey = "\(localizeKey).Normal";
             let inline = InlineEditorHandler()
             inline.showAlert(view: self, localizationKey: normalKey)
         }
