@@ -305,8 +305,11 @@ public class Localization {
         - parameter translation: translations associated with the language
      */
     public static func saveLanguageToDisk(code:String, translation:[AnyHashable:String]){
+        guard let appKey = self.appKey else {
+            return
+        }
         let standard = UserDefaults.standard;
-        standard.set(translation, forKey: "\(self.appKey!)_\(code)");
+        standard.set(translation, forKey: "\(appKey)_\(code)");
         standard.synchronize()
     }
     
@@ -315,8 +318,11 @@ public class Localization {
         - Parameter code: language 2 character code
     */
     public static func loadLanguageFromDisk(code:String){
+        guard let appKey = self.appKey else {
+            return
+        }
         let standard = UserDefaults.standard
-        guard let data = standard.object(forKey: "\(self.appKey!)_\(code)") as? [AnyHashable : String] else {
+        guard let data = standard.object(forKey: "\(appKey)_\(code)") as? [AnyHashable : String] else {
             return
         }
         self.loadedLanguageTranslations = data;
@@ -337,10 +343,13 @@ public class Localization {
         - Parameter code: language 2 character code
      */
     private static func loadLanguage(language:Language, _ completion: @escaping () -> Swift.Void){
+        guard let appKey = self.appKey else {
+            return
+        }
         self.loadLanguageFromDisk(code: language.key);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\((self.appKey)!)/language/\(language.key)"
+        let urlString = Localization.server+"/api/app/\(appKey)/language/\(language.key)"
         let url = URL(string: urlString as String)
         session.dataTask(with: url!) {
             (data, response, error) in
@@ -427,8 +436,11 @@ public class Localization {
         Load initial language
     */
     private static func initialLanguage(){
-        let url = URL(string: "\(server)/app/#/app/\(appKey!)")
-        print("LocalizationKit:", url!)
+        guard let appKey = self.appKey, let url = URL(string: "\(server)/app/#/app/\(appKey)") else {
+            return
+        }
+        
+        print("LocalizationKit:", url)
         loadSelectedLanguageCode { (language) in
             guard let lang = language else {
                 print("No language available")
@@ -465,8 +477,12 @@ public class Localization {
         Start socket server
     */
     private static func startSocket(){
-        let url = URL(string: server)
-        socket = SocketIOClient(socketURL: url!)
+        guard let url = URL(string: server) else {
+            print("Start Socket URL Incorrect")
+            return
+        }
+        
+        socket = SocketIOClient(socketURL: url)
         socket?.on("connect", callback: {(data,ack) in
             self.joinLanguageRoom()
             let appRoom = "\((self.appKey)!)_app"
@@ -477,20 +493,23 @@ public class Localization {
             //let dictionary = data[0] as! [AnyHashable : Any]
         })
         socket?.on("highlight", callback: {(data,ack) in
-            let dictionary = data[0] as! [AnyHashable : Any]
-            guard let meta = dictionary["meta"] as? String else {
-                return;
+            if let dictionary = data[0] as? [AnyHashable : Any] {
+                guard let meta = dictionary["meta"] as? String else {
+                    return;
+                }
+                NotificationCenter.default.post(name: self.highlightEvent(localizationKey: meta), object: self)
             }
-            NotificationCenter.default.post(name: self.highlightEvent(localizationKey: meta), object: self)
         })
         socket?.on("text", callback: {(data,ack) in
-            let dictionary = data[0] as! [AnyHashable : Any]
-            guard let meta = dictionary["meta"] as? String else {
-                return;
+            if let dictionary = data[0] as? [AnyHashable : Any] {
+                guard let meta = dictionary["meta"] as? String else {
+                    return;
+                }
+                if let value = dictionary["value"] as? String {
+                    self.loadedLanguageTranslations?[meta] = value
+                    NotificationCenter.default.post(name: self.localizationEvent(localizationKey: meta), object: self)
+                }
             }
-            let value = dictionary["value"] as! String
-            self.loadedLanguageTranslations?[meta] = value
-            NotificationCenter.default.post(name: self.localizationEvent(localizationKey: meta), object: self)
         })
         socket?.connect()
     }
@@ -525,8 +544,8 @@ public class Localization {
         Subscribe to current language updates
      */
     private static func leaveLanguageRoom(){
-        if self.appKey != nil && self.languageCode != nil {
-            let languageRoom = "\((self.appKey)!)_\((self.languageCode)!)"
+        if let appKey = self.appKey, let languageCode = self.languageCode {
+            let languageRoom = "\(appKey)_\(languageCode)"
             leaveRoom(name:languageRoom)
         }
     }
@@ -587,7 +606,11 @@ public class Localization {
     */
     
     public static func set(_ key:String,value:String, language:String? = nil){
-        var data = ["appuuid":Localization.appKey!, "key":key, "value":value, "language": Localization.languageCode!]
+        guard let appKey = self.appKey else {
+            print("You havent specified an app key")
+            return
+        }
+        var data = ["appuuid":appKey, "key":key, "value":value, "language": Localization.languageCode!]
         if language != nil {
             data["language"] = language
         }
@@ -604,6 +627,10 @@ public class Localization {
         - Parameter alternate: the default text for this key
     */
     public static func get(_ key:String, alternate:String) -> String{
+        guard let appKey = self.appKey else {
+            print("Cannot get without appkey")
+            return alternate
+        }
         let m = self.loadedLanguageTranslations
         let keyString = self.languageCode != nil ? "\(self.languageCode!)-\(key)" : "NA-\(key)"
         if m == nil {
@@ -617,9 +644,9 @@ public class Localization {
             if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
                 self.loadedLanguageTranslations?[key] = key
                 if alternate != key && alternate != keyString {
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLanguageCode, "raw":alternate])
+                    self.sendMessage(type: "key:add", data: ["appuuid":appKey, "key":key, "language":buildLanguageCode, "raw":alternate])
                 }else{
-                    self.sendMessage(type: "key:add", data: ["appuuid":self.appKey!, "key":key, "language":buildLanguageCode])
+                    self.sendMessage(type: "key:add", data: ["appuuid":appKey, "key":key, "language":buildLanguageCode])
                 }
             }
             

@@ -28,8 +28,8 @@ extension UITextField {
     /// clear previous localization listeners
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            let placeHolderKey = "\(localizeKey).Placeholder";
             NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil);
             NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil);
         }
@@ -71,13 +71,13 @@ extension UITextField {
     
     /// update the localization
     public func updateLocalisation() {
-        if ((self.LocalizeKey?.isEmpty) != nil)  {
-            let placeHolderKey = "\(self.LocalizeKey!).Placeholder";
-            if self.placeholder == nil {
-                let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
-                self.placeholder = languageString
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            let placeHolderKey = "\(localizeKey).Placeholder";
+            if var placeholder = self.placeholder {
+                let languageString = Localization.get(placeHolderKey, alternate:placeholder)
+                placeholder = languageString
             }else{
-                let languageString = Localization.get(placeHolderKey, alternate:self.placeholder!)
+                let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
                 self.placeholder = languageString
             }
         }

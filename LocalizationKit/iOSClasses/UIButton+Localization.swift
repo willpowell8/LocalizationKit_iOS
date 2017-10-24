@@ -29,8 +29,8 @@ extension UIButton {
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         inlineEditClear()
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            let normalKey = "\(self.LocalizeKey!).Normal";
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            let normalKey = "\(localizeKey).Normal";
             NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: normalKey), object: nil);
             NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: normalKey), object: nil);
         }
@@ -76,12 +76,10 @@ extension UIButton {
         update the localization
     */
     public func updateLocalisation() {
-        if ((self.LocalizeKey?.isEmpty) != nil)  {
-            
-            let normalText = self.title(for: .normal);
-            if normalText != nil && (normalText?.characters.count)! > 0 {
-                let normalKey = "\(self.LocalizeKey!).Normal";
-                let languageString = Localization.get(normalKey, alternate:normalText!)
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            if let normalText = self.title(for: .normal), normalText.characters.count > 0 {
+                let normalKey = "\(localizeKey).Normal"
+                let languageString = Localization.get(normalKey, alternate:normalText)
                 if self.title(for: .normal) != languageString {
                     self.setTitle(languageString, for: .normal);
                 }

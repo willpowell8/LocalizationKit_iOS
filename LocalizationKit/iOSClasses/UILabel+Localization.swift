@@ -31,9 +31,9 @@ extension UILabel{
     func localizationClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
         inlineEditClear()
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil);
-            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil);
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: localizeKey), object: nil);
+            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: localizeKey), object: nil);
         }
     }
     
@@ -80,12 +80,12 @@ extension UILabel{
     
     /// update the localization
     public func updateLocalisation() {
-        if ((self.LocalizeKey?.isEmpty) != nil)  {
-            if self.text == nil {
-                let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            if let str = self.text {
+                let languageString = Localization.get(localizeKey, alternate:str)
                 self.text = languageString
             }else{
-                let languageString = Localization.get(self.LocalizeKey!, alternate:self.text!)
+                let languageString = Localization.get(localizeKey, alternate:localizeKey)
                 self.text = languageString
             }
             

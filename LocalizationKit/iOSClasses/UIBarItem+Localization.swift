@@ -28,16 +28,16 @@ extension UIBarItem {
     /// clear previous localization listeners
     func localizaionClear(){
         NotificationCenter.default.removeObserver(self, name: Localization.ALL_CHANGE, object: nil);
-        if LocalizeKey != nil && (LocalizeKey?.characters.count)! > 0 {
-            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: LocalizeKey!), object: nil);
-            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: LocalizeKey!), object: nil);
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
+            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: localizeKey), object: nil);
+            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: localizeKey), object: nil);
         }
     }
     
     /// setup requirements for localization listening
     func localizationSetup(){
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.ALL_CHANGE, object: nil)
-        if let localizeKey = LocalizeKey {
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: localizeKey), object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: localizeKey), object: nil)
         }
@@ -69,12 +69,12 @@ extension UIBarItem {
     
     /// update the localization
     public func updateLocalisation() {
-        if ((self.LocalizeKey?.isEmpty) != nil)  {
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             if self.title == nil {
-                let languageString = Localization.get(self.LocalizeKey!, alternate:self.LocalizeKey!)
+                let languageString = Localization.get(localizeKey, alternate:self.LocalizeKey!)
                 self.title = languageString
             }else{
-                let languageString = Localization.get(self.LocalizeKey!, alternate:self.title!)
+                let languageString = Localization.get(localizeKey, alternate:self.title!)
                 self.title = languageString
             }
         } else {

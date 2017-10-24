@@ -72,12 +72,12 @@ extension UINavigationItem {
     
     /// update the localization
     public func updateLocalisation() {
-        if let localizeKey = self.LocalizeKey  {
+        if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             if let title = self.title {
                 let languageString = Localization.get(localizeKey, alternate:title)
                 self.title = languageString
             }else{
-                let languageString = Localization.get(localizeKey, alternate:localizeKey)
+                let languageString = Localization.get(localizeKey, alternate:"")
                 self.title = languageString
             }
         } else {
