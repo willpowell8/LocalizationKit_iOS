@@ -16,7 +16,8 @@ class InlineEditorHandler:NSObject,UIPopoverPresentationControllerDelegate {
         let bundle = Bundle(url: bundleURL!)!
         let popController = ManualLocalizeViewController(nibName: "ManualLocalizeViewController", bundle: bundle)
         popController.localizationKey = localizationKey//self.LocalizeKey
-        popController.preferredContentSize = CGSize(width: 296, height: 111)
+        let height =  Localization.socket?.status == .connected ? CGFloat(111) : CGFloat(141)
+        popController.preferredContentSize = CGSize(width: 296, height: height)
         // set the presentation style
         popController.modalPresentationStyle = UIModalPresentationStyle.popover
         

@@ -54,7 +54,7 @@ extension UITextField {
     }
     
     /// trigger field highlight
-    public func localizationHighlight() {
+    @objc public func localizationHighlight() {
         /*DispatchQueue.main.async(execute: {
          let originalCGColor = self.layer.backgroundColor
          UIView.animate(withDuration: 0.4, animations: {

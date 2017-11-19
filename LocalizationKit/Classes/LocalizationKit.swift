@@ -57,7 +57,7 @@ public class Localization {
     /**
         Remote server address
     */
-    public static var server:String = "https://www.localizationkit.com";
+    public static var server:String = "http://192.168.2.229:3000"//"https://www.localizationkit.com";
     
     
     /**
@@ -68,7 +68,8 @@ public class Localization {
     /**
          core socket
      */
-    public static var socket:SocketIOClient?
+    static var socket:SocketIOClient?
+    static var manager:SocketManager?
     
     /**
          App Key
@@ -184,7 +185,6 @@ public class Localization {
         let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
         let current:String  = languages.object(at: 0) as! String
         languageFromAvailableLanguages(languagecode: current, completion: completion)
-        
     }
     
     private static func languageFromAvailableLanguages(languagecode:String, completion: @escaping (_ language:Language?) -> Swift.Void){
@@ -398,8 +398,10 @@ public class Localization {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let urlString = Localization.server+"/api/app/\((self.appKey)!)/languages/"
-        let url = URL(string: urlString as String)
-        session.dataTask(with: url!) {
+        guard let url = URL(string: urlString as String) else{
+            return
+        }
+        session.dataTask(with: url) {
             (data, response, error) in
             if (response as? HTTPURLResponse) != nil {
                 do {
@@ -481,26 +483,27 @@ public class Localization {
             print("Start Socket URL Incorrect")
             return
         }
-        
-        socket = SocketIOClient(socketURL: url)
-        socket?.on("connect", callback: {(data,ack) in
+        let manager = SocketManager(socketURL: url, config: [.log(false), .compress])
+        self.manager = manager
+        let socket = manager.defaultSocket
+        socket.on("connect") { data, ack in
             self.joinLanguageRoom()
             let appRoom = "\((self.appKey)!)_app"
             sendMessage(type: "join", data: ["room":appRoom])
             NotificationCenter.default.post(name: ALL_CHANGE, object: self)
-        })
-        socket?.on("languages", callback: {(data,ack) in
+        }
+        socket.on("languages") {data,ack in
             //let dictionary = data[0] as! [AnyHashable : Any]
-        })
-        socket?.on("highlight", callback: {(data,ack) in
+        }
+        socket.on("highlight"){ data,ack in
             if let dictionary = data[0] as? [AnyHashable : Any] {
                 guard let meta = dictionary["meta"] as? String else {
                     return;
                 }
                 NotificationCenter.default.post(name: self.highlightEvent(localizationKey: meta), object: self)
             }
-        })
-        socket?.on("text", callback: {(data,ack) in
+        }
+        socket.on("text") { data,ack in
             if let dictionary = data[0] as? [AnyHashable : Any] {
                 guard let meta = dictionary["meta"] as? String else {
                     return;
@@ -510,8 +513,9 @@ public class Localization {
                     NotificationCenter.default.post(name: self.localizationEvent(localizationKey: meta), object: self)
                 }
             }
-        })
-        socket?.connect()
+        }
+        socket.connect()
+        self.socket = socket
     }
     
     
@@ -551,7 +555,7 @@ public class Localization {
     }
     
     private static func sendMessage(type:String, data:SocketData...){
-        if socket?.status == SocketIOClientStatus.connected {
+        if socket?.status == .connected {
             socket?.emit(type, with: data)
         }
     }
@@ -614,7 +618,7 @@ public class Localization {
         if language != nil {
             data["language"] = language
         }
-        if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
+        if liveEnabled && languageCode != nil && socket?.status == .connected {
             self.loadedLanguageTranslations?[key] = value
             self.sendMessage(type: "translation:save", data: data)
             NotificationCenter.default.post(name: self.localizationEvent(localizationKey: key), object: self)
@@ -641,7 +645,7 @@ public class Localization {
         }
         
         guard let localisation = loadedLanguageTranslations?[key] else {
-            if liveEnabled && languageCode != nil && socket?.status == SocketIOClientStatus.connected {
+            if liveEnabled && languageCode != nil && socket?.status == .connected {
                 self.loadedLanguageTranslations?[key] = key
                 if alternate != key && alternate != keyString {
                     self.sendMessage(type: "key:add", data: ["appuuid":appKey, "key":key, "language":buildLanguageCode, "raw":alternate])

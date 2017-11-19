@@ -52,7 +52,7 @@ extension UIBarItem {
     }
     
     /// trigger field highlight
-    public func localizationHighlight() {
+    @objc public func localizationHighlight() {
         /*DispatchQueue.main.async(execute: {
          let originalCGColor = self.layer.backgroundColor
          UIView.animate(withDuration: 0.4, animations: {
@@ -68,7 +68,7 @@ extension UIBarItem {
     }
     
     /// update the localization
-    public func updateLocalisation() {
+    @objc public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             if self.title == nil {
                 let languageString = Localization.get(localizeKey, alternate:self.LocalizeKey!)

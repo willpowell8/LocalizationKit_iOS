@@ -63,7 +63,7 @@ extension UILabel{
     }
     
     /// trigger field highlight
-    public func localizationHighlight() {
+    @objc public func localizationHighlight() {
         DispatchQueue.main.async(execute: {
             let originalCGColor = self.layer.backgroundColor
             UIView.animate(withDuration: 0.4, animations: {
@@ -110,7 +110,7 @@ extension UILabel{
     }
     
     /// Inline Editor - gesture recognize Long Press
-    func inlineEditorGestureLongPress(_ sender: UILongPressGestureRecognizer)
+    @objc func inlineEditorGestureLongPress(_ sender: UILongPressGestureRecognizer)
     {
         if sender.state == .began, let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             let inline = InlineEditorHandler()
@@ -119,7 +119,7 @@ extension UILabel{
     }
     
     /// Inline Edit State Update
-    func inlineEditStateUpdate(){
+    @objc func inlineEditStateUpdate(){
         if Localization.allowInlineEdit {
             var hasListener = false
             if let recognizers = self.gestureRecognizers {

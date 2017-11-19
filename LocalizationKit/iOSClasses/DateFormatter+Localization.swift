@@ -25,12 +25,10 @@ extension DateFormatter{
     }
     
     public func updateLocalisation() {
-        if ((self.LocalizeKey?.isEmpty) != nil){
-            let dateFormatText = self.dateFormat;
-            if dateFormatText != nil && (dateFormatText?.characters.count)! > 0 {
-                let normalKey = "\(self.LocalizeKey!)";
-                let languageString = Localization.get(normalKey, alternate:dateFormatText!)
-                if languageString.characters.count > 0  && languageString != normalKey {
+        if let localizeKey = self.LocalizeKey, !localizeKey.isEmpty{
+            if let dateFormatText = self.dateFormat, dateFormatText.characters.count > 0 {
+                let languageString = Localization.get(localizeKey, alternate:dateFormatText)
+                if languageString.characters.count > 0  && languageString != localizeKey {
                     self.dateFormat = languageString
                 }
             }
