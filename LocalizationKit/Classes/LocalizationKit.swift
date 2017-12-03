@@ -438,7 +438,7 @@ public class Localization {
         Load initial language
     */
     private static func initialLanguage(){
-        guard let appKey = self.appKey, let url = URL(string: "\(server)/app/#/app/\(appKey)") else {
+        guard let appKey = self.appKey, let url = URL(string: "\(server)/v2/app/#/app/\(appKey)") else {
             return
         }
         
@@ -483,7 +483,7 @@ public class Localization {
             print("Start Socket URL Incorrect")
             return
         }
-        let manager = SocketManager(socketURL: url, config: [.log(false), .compress])
+        let manager = SocketManager(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])
         self.manager = manager
         let socket = manager.defaultSocket
         socket.on("connect") { data, ack in
