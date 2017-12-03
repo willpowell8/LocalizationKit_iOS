@@ -35,7 +35,6 @@ class ManualLocalizeViewController: UIViewController {
             }
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         }
-        
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
