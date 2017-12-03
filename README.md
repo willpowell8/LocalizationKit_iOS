@@ -12,6 +12,10 @@ Localization Kit quickly and easily integrates into your app using Cocoapods. Th
 
 ## Installation
 
+Requires Swift 4/Xcode 9.x
+
+If you need Swift 3.x use v3.0.0
+
 LocalizationKit is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 ```ruby
