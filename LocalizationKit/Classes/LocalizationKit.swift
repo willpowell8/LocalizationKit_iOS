@@ -57,7 +57,7 @@ public class Localization {
     /**
         Remote server address
     */
-    public static var server:String = "http://192.168.2.229:3000"//"https://www.localizationkit.com";
+    public static var server:String = "https://www.localizationkit.com";
     
     
     /**
@@ -349,7 +349,7 @@ public class Localization {
         self.loadLanguageFromDisk(code: language.key);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\(appKey)/language/\(language.key)"
+        let urlString = Localization.server+"/v2/api/app/\(appKey)/language/\(language.key)"
         let url = URL(string: urlString as String)
         session.dataTask(with: url!) {
             (data, response, error) in
