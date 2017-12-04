@@ -182,8 +182,9 @@ public class Localization {
             }
         }
         let defs = UserDefaults.standard
-        let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray)!
-        let current:String  = languages.object(at: 0) as! String
+        guard let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray), let current:String  = languages.object(at: 0) as? String else{
+            return
+        }
         languageFromAvailableLanguages(languagecode: current, completion: completion)
     }
     
@@ -455,8 +456,12 @@ public class Localization {
     /**
         Reset to device's natural language
     */
-    public func resetToDeviceLanguage(){
-        self.resetToDeviceLanguage();
+    public static func resetToDeviceLanguage(_ completion: @escaping (_ language:Language?)->Void){
+        let defs = UserDefaults.standard
+        guard let languages:NSArray = (defs.object(forKey: "AppleLanguages") as? NSArray), let current:String  = languages.object(at: 0) as? String else{
+            return
+        }
+        languageFromAvailableLanguages(languagecode: current, completion: completion)
     }
     
     /**
@@ -485,7 +490,7 @@ public class Localization {
         }
         //let manager = SocketManager(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])
         //self.manager = manager
-        let socket = SocketIOClient(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])//manager.defaultSocket
+        let socket = SocketIOClient(socketURL: url, config: [.log(false), .compress])//manager.defaultSocket
         socket.on("connect") { data, ack in
             self.joinLanguageRoom()
             let appRoom = "\((self.appKey)!)_app"
