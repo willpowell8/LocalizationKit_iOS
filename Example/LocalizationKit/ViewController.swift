@@ -20,6 +20,10 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    @IBAction func reset(_ sender:AnyObject){
+        Localization.resetToDeviceLanguage()
+    }
+    
     @IBAction func changeLanguage(_ sender:AnyObject){
         let localizedString = "Select Language".localize
         let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)

@@ -1,6 +1,7 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
 ### 4.0.0 - update to swift 4
+### 3.0.1 - update to socketio 2.0 for Swift 3
 ### 3.0.0 - update to socketio 2.0 for Swift 3
 ### 2.0.9 - update to change to main language object
 ### 2.0.6 - fix issue with UINavigationController initial set
