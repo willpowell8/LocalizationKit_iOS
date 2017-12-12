@@ -1,16 +1,15 @@
 //
-//  UITextField+Localization.swift
-//  Pods
+//  UISearchBar+Localization.swift
+//  LocalizationKit
 //
-//  Created by Will Powell on 02/01/2017.
-//
+//  Created by Will Powell on 12/12/2017.
 //
 
 import Foundation
 
-private var localizationKey: UInt8 = 3
+private var localizationKey: UInt8 = 5
 
-extension UITextField {
+extension UISearchBar {
     /// Localization Key used to reference the unique translation and text required.
     @IBInspectable
     public var LocalizeKey: String? {
@@ -32,6 +31,9 @@ extension UITextField {
             let placeHolderKey = "\(localizeKey).Placeholder";
             NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil);
             NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil);
+            let promptKey = "\(localizeKey).Prompt";
+            NotificationCenter.default.removeObserver(self, name: Localization.highlightEvent(localizationKey: promptKey), object: nil);
+            NotificationCenter.default.removeObserver(self, name: Localization.localizationEvent(localizationKey: promptKey), object: nil);
         }
     }
     
@@ -42,6 +44,9 @@ extension UITextField {
             let placeHolderKey = "\(localizeKey).Placeholder";
             NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: placeHolderKey), object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: placeHolderKey), object: nil)
+            let promptKey = "\(localizeKey).Prompt";
+            NotificationCenter.default.addObserver(self, selector: #selector(localizationHighlight), name: Localization.highlightEvent(localizationKey: promptKey), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(updateLocalizationFromNotification), name: Localization.localizationEvent(localizationKey: promptKey), object: nil)
         }
     }
     
@@ -50,7 +55,6 @@ extension UITextField {
         DispatchQueue.main.async(execute: {
             self.updateLocalisation()
         })
-        
     }
     
     /// trigger field highlight
@@ -79,6 +83,15 @@ extension UITextField {
             }else{
                 let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
                 self.placeholder = languageString
+            }
+            
+            let promptKey = "\(localizeKey).Prompt";
+            if let prompt = self.prompt {
+                let languageString = Localization.get(promptKey, alternate:prompt)
+                self.prompt = languageString
+            }else{
+                let languageString = Localization.get(promptKey, alternate:promptKey)
+                self.prompt = languageString
             }
         }
     }
