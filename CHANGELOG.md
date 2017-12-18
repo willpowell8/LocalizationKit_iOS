@@ -1,6 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
-### 3.0.3 - fix warnings
+### 3.0.4 - fix warnings
 ### 3.0.2 - update to add the searchbar component
 ### 3.0.1 - update to socketio 2.0 for Swift 3
 ### 3.0.0 - update to socketio 2.0 for Swift 3
