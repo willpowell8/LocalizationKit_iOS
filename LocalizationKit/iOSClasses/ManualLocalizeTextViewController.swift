@@ -14,7 +14,7 @@ class ManualLocalizeTextViewController: UIViewController {
     
     fileprivate var keyboardHeight: CGFloat = 0.0
     
-    public var localizationKey:String? {
+    var localizationKey:String? {
         didSet{
             DispatchQueue.main.async {
                 self.navigationItem.title = self.localizationKey

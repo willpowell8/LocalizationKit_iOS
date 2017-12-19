@@ -17,7 +17,7 @@ class ManualLocalizeViewController: UIViewController {
     
     var localizeView:UIView?
     
-    public var localizationKey:String? {
+    var localizationKey:String? {
         didSet{
             DispatchQueue.main.async {
                 self.keyLabel.text = self.localizationKey
