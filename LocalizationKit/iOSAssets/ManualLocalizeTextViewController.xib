@@ -20,15 +20,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WvB-eb-M5o">
-                    <rect key="frame" x="16" y="0.0" width="343" height="232"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WvB-eb-M5o">
+                    <rect key="frame" x="16" y="0.0" width="343" height="593"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="WvB-eb-M5o" secondAttribute="trailing" constant="16" id="5uI-mm-LnA"/>
+                <constraint firstItem="WvB-eb-M5o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Kty-cW-nOu"/>
+                <constraint firstItem="WvB-eb-M5o" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T9y-Z5-Mis"/>
+                <constraint firstAttribute="bottom" secondItem="WvB-eb-M5o" secondAttribute="bottom" constant="10" id="zft-1q-wPz"/>
+            </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>

@@ -12,6 +12,8 @@ class ManualLocalizeTextViewController: UIViewController {
     @IBOutlet weak var textView:UITextView!
     var localizeView:UIView?
     
+    fileprivate var keyboardHeight: CGFloat = 0.0
+    
     public var localizationKey:String? {
         didSet{
             DispatchQueue.main.async {
@@ -30,6 +32,14 @@ class ManualLocalizeTextViewController: UIViewController {
         
         let saveButton =  UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneNow))
         navigationItem.rightBarButtonItem = saveButton
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardEvent), name: .UIKeyboardWillShow, object: nil)
+    }
+    
+    func keyboardEvent(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            keyboardHeight = keyboardSize.height
+        }
     }
     
     @objc func doneNow(){
