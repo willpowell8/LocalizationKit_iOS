@@ -15,6 +15,8 @@ class ManualLocalizeViewController: UIViewController {
     @IBOutlet weak var textField:UITextField!
     @IBOutlet weak var errorMessage:UILabel!
     
+    var localizeView:UIView?
+    
     public var localizationKey:String? {
         didSet{
             DispatchQueue.main.async {
@@ -38,15 +40,25 @@ class ManualLocalizeViewController: UIViewController {
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        if let localizationKeyStr = self.localizationKey {
-            Localization.set(localizationKeyStr, value: textField.text!)
+        guard let localizationKeyStr = self.localizationKey, let newString = textField.text else {
+            return
         }
+        Localization.set(localizationKeyStr, value: newString)
+    }
+    
+    @IBAction func changeToMultiLine(){
+        guard let v = localizeView, let localizeKey = localizationKey else{
+            return
+        }
+        self.dismiss(animated: true, completion: {
+            let inline = InlineEditorHandler()
+            inline.showAlert(view: v, localizationKey: localizeKey, forceMultiLine:true)
+        })
     }
 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }

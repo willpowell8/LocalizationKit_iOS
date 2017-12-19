@@ -291,12 +291,12 @@ public class Localization {
     @objc public static func defaultsChanged(){
         let userDefaults = UserDefaults.standard
         let val = userDefaults.bool(forKey: "live_localization");
-        if val == true,self.liveEnabled == false, let language = self.language {
+        if val == true, self.liveEnabled == false, let language = self.language {
             self.loadLanguage(language);
         }
-        self.liveEnabled = val;
+        liveEnabled = val;
         
-        self.allowInlineEdit = userDefaults.bool(forKey: "live_localization_inline");
+        allowInlineEdit = userDefaults.bool(forKey: "live_localization_inline");
     }
     
     
@@ -326,7 +326,7 @@ public class Localization {
         guard let data = standard.object(forKey: "\(appKey)_\(code)") as? [AnyHashable : String] else {
             return
         }
-        self.loadedLanguageTranslations = data;
+        loadedLanguageTranslations = data;
         NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
     }
     /**
@@ -334,7 +334,7 @@ public class Localization {
      - Parameter code: language 2 character code
      */
     private static func loadLanguage(_ language:Language){
-        self.loadLanguage(language: language) {
+        loadLanguage(language: language) {
             return;
         }
     }
@@ -347,7 +347,7 @@ public class Localization {
         guard let appKey = self.appKey else {
             return
         }
-        self.loadLanguageFromDisk(code: language.key);
+        loadLanguageFromDisk(code: language.key);
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let urlString = Localization.server+"/v2/api/app/\(appKey)/language/\(language.key)"
@@ -370,7 +370,7 @@ public class Localization {
                 }
                 
             }
-            }.resume()
+        }.resume()
     }
     
     /**
@@ -396,9 +396,12 @@ public class Localization {
         Load available languages from server
     */
     private static func loadAvailableLanguages(languageCode:String, _ completion: @escaping ([Language]) -> Swift.Void){
+        guard let appKey = self.appKey else{
+            return
+        }
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\((self.appKey)!)/languages/"
+        let urlString = Localization.server+"/api/app/\(appKey)/languages/"
         guard let url = URL(string: urlString as String) else{
             return
         }
@@ -423,7 +426,6 @@ public class Localization {
                         }
                         languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames))
                     }
-                    print("Completed");
                     completion(languagesOutput)
                 } catch {
                     print("error serializing JSON: \(error)")
@@ -532,6 +534,7 @@ public class Localization {
         self.socket = socket
     }
     
+    private static var hasJoinedLanguageRoom:Bool = false
     
     private static func joinRoom(name:String){
         self.sendMessage(type: "join", data: ["room":name])
@@ -540,8 +543,6 @@ public class Localization {
     /**
         Subscribe to current language updates
     */
-    
-    private static var hasJoinedLanguageRoom:Bool = false
     private static func joinLanguageRoom(){
         guard liveEnabled == true else {
             return
@@ -568,6 +569,11 @@ public class Localization {
         }
     }
     
+    /**
+     Send Message
+     - Parameter type: type string
+     - Parameter data: data object
+     */
     private static func sendMessage(type:String, data:SocketData...){
         if socket?.status == .connected {
             socket?.emit(type, with: data)
@@ -601,12 +607,21 @@ public class Localization {
         }
     }
     
+    /**
+     Set Language Code with language object
+     - Parameter language: language object
+     */
     public static func setLanguage(_ language:Language){
         self.setLanguage(language) {
             return;
         }
     }
     
+    /**
+     Set Language Code with language object
+     - Parameter languageNew: language object
+     - Parameter completion: completion block
+     */
     public static func setLanguage(_ languageNew:Language, _ completion: @escaping () -> Swift.Void){
         if language?.key != languageNew.key {
             self.leaveLanguageRoom();
@@ -620,21 +635,23 @@ public class Localization {
     }
     
     /**
- 
-    */
-    
+     Set new language key
+     - Parameter key: the new key object that is created
+     - Parameter value: the starting text used
+     - Parameter language: the language the value text is for. If left blank uses the default
+     */
     public static func set(_ key:String,value:String, language:String? = nil){
-        guard let appKey = self.appKey else {
+        guard let appKey = self.appKey, let languageCode = Localization.languageCode else {
             print("You havent specified an app key")
             return
         }
-        var data = ["appuuid":appKey, "key":key, "value":value, "language": Localization.languageCode!]
+        var data = ["appuuid":appKey, "key":key, "value":value, "language": languageCode]
         if language != nil {
             data["language"] = language
         }
-        if liveEnabled && languageCode != nil && socket?.status == .connected {
-            self.loadedLanguageTranslations?[key] = value
-            self.sendMessage(type: "translation:save", data: data)
+        if liveEnabled && socket?.status == .connected {
+            loadedLanguageTranslations?[key] = value
+            sendMessage(type: "translation:save", data: data)
             NotificationCenter.default.post(name: self.localizationEvent(localizationKey: key), object: self)
         }
     }
