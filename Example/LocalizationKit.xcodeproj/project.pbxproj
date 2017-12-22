@@ -12,9 +12,9 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		8104AA7B1E06BAD500D18B2C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8104AA7A1E06BAD500D18B2C /* Settings.bundle */; };
 		814528291E0EC681002FF353 /* LocalizationLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 814528281E0EC681002FF353 /* LocalizationLogo.png */; };
+		815C2BCA1FED256400C40DFE /* LocalizationKit_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C2BC91FED256400C40DFE /* LocalizationKit_Tests.swift */; };
 		81FDCC8E1F45B4EB0018D0A4 /* test.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81FDCC8D1F45B4EB0018D0A4 /* test.strings */; };
 		8C1802B18F3A79AC10D37708 /* Pods_LocalizationKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37ED75AC0E11C233BF64E576 /* Pods_LocalizationKit_Tests.framework */; };
 		E8954D1BD87CFE816204087D /* Pods_LocalizationKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4362BB1324E8541FFB96E1E7 /* Pods_LocalizationKit_Example.framework */; };
@@ -45,10 +45,10 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* LocalizationKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalizationKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		69AF7E31EBA243A74727D059 /* LocalizationKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LocalizationKit.podspec; path = ../LocalizationKit.podspec; sourceTree = "<group>"; };
 		8104AA7A1E06BAD500D18B2C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		814528281E0EC681002FF353 /* LocalizationLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocalizationLogo.png; sourceTree = "<group>"; };
+		815C2BC91FED256400C40DFE /* LocalizationKit_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationKit_Tests.swift; sourceTree = "<group>"; };
 		81CDD8D81E1AEA96004E8D6A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
 		81CDD8DB1E1AECBA004E8D6A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
 		81FDCC8D1F45B4EB0018D0A4 /* test.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = test.strings; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				815C2BC91FED256400C40DFE /* LocalizationKit_Tests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -388,7 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				815C2BCA1FED256400C40DFE /* LocalizationKit_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -581,7 +581,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

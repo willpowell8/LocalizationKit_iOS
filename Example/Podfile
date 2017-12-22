@@ -5,5 +5,6 @@ target 'LocalizationKit_Example' do
   pod 'MBProgressHUD'
   target 'LocalizationKit_Tests' do
     inherit! :search_paths
+    pod 'LocalizationKit', :path => '../'
   end
 end

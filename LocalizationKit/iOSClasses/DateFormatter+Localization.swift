@@ -26,9 +26,9 @@ extension DateFormatter{
     
     public func updateLocalisation() {
         if let localizeKey = self.LocalizeKey, !localizeKey.isEmpty{
-            if let dateFormatText = self.dateFormat, dateFormatText.characters.count > 0 {
+            if let dateFormatText = self.dateFormat, dateFormatText.count > 0 {
                 let languageString = Localization.get(localizeKey, alternate:dateFormatText)
-                if languageString.characters.count > 0  && languageString != localizeKey {
+                if languageString.count > 0  && languageString != localizeKey {
                     self.dateFormat = languageString
                 }
             }

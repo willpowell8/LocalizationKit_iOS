@@ -1,8 +1,15 @@
-import UIKit
-import XCTest
-import LocalizationKit
+//
+//  LocalizationKit_Tests.swift
+//  LocalizationKit_Tests
+//
+//  Created by Will Powell on 22/12/2017.
+//  Copyright © 2017 CocoaPods. All rights reserved.
+//
 
-class Tests: XCTestCase {
+import XCTest
+//import LocalizationKit
+
+class LocalizationKit_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -14,14 +21,20 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testParser(){
+        //let str = Localization.parse(str:"Name*")
+        //let str2 = Localization.parse(str:"Hello how are you !?>")
+        XCTAssert(true)
+    }
+    
     func testExample() {
         // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measure() {
+        self.measure {
             // Put the code you want to measure the time of here.
         }
     }

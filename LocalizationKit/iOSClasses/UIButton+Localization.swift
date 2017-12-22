@@ -77,7 +77,7 @@ extension UIButton {
     */
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
-            if let normalText = self.title(for: .normal), normalText.characters.count > 0 {
+            if let normalText = self.title(for: .normal), normalText.count > 0 {
                 let normalKey = "\(localizeKey).Normal"
                 let languageString = Localization.get(normalKey, alternate:normalText)
                 if self.title(for: .normal) != languageString {
