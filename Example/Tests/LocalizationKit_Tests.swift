@@ -38,4 +38,35 @@ class LocalizationKit_Tests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
+    func test639LanguageCode(){
+        XCTAssert(Localization.language639Code == Localization.language?.key)
+    }
+    
+    func testLanguageChange(){
+        let expectation = XCTestExpectation(description: "Check Change Language")
+        Localization.availableLanguages { (languages) in
+            let newLanguage = languages[1]
+            Localization.setLanguage(newLanguage, {
+                XCTAssert(Localization.language?.key == newLanguage.key)
+                expectation.fulfill()
+            })
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testResetLanguage(){
+        let expectation = XCTestExpectation(description: "Reset Language Check")
+        let currentLanguage = Localization.language
+        Localization.availableLanguages { (languages) in
+            let newLanguage = languages[1]
+            Localization.setLanguage(newLanguage, {
+                Localization.resetToDeviceLanguage({ (lang) in
+                    XCTAssert(currentLanguage?.key == lang?.key)
+                    expectation.fulfill()
+                })
+            })
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+    
 }
