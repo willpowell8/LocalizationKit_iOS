@@ -7,12 +7,13 @@
 //
 
 import XCTest
-//import LocalizationKit
+import LocalizationKit
 
 class LocalizationKit_Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", live:false)
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -22,21 +23,19 @@ class LocalizationKit_Tests: XCTestCase {
     }
     
     func testParser(){
-        //let str = Localization.parse(str:"Name*")
-        //let str2 = Localization.parse(str:"Hello how are you !?>")
-        XCTAssert(true)
+        let str = Localization.parse(str:"Name*")
+         XCTAssert(str == "Name")
+        let str2 = Localization.parse(str:"Hello how are you !?>")
+        XCTAssert(str2 == "Hellohowareyou")
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testLanguages(){
+        let expectation = XCTestExpectation(description: "Get languages")
+        Localization.availableLanguages { (languages) in
+            XCTAssert(languages.count > 0)
+            expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 10.0)
     }
     
 }
