@@ -24,7 +24,7 @@ pod "LocalizationKit"
 ### Using Carthage
 
 ```ruby
-github "willpowell8/LocalizationKit_iOS" ~> 3.0.10
+github "willpowell8/LocalizationKit_iOS" ~> 3.0.11
 ```
 
 ## Setup
