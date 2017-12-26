@@ -9,5 +9,7 @@
 /Carthage/Build/tvOS/SocketIO.framework
 /Carthage/Build/tvOS/SocketIO.framework.dSYM
 /Carthage/Checkouts/socket.io-client-swift
-/Examples
+/Examples/iOS_Swift_Cocoapods/Pods
+/Examples/iOS_Swift_Cocoapods/LocalizationKit.xcworkspace
+/Examples/iOS_Swift_Carthage
 /Carthage
