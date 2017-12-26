@@ -1,14 +1,15 @@
 //
-//  Package.swift
+//  LocalizationKit.swift
 //  LocalizationKit
 //
-//  Created by Will Powell on 02/01/2017.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Created by Will Powell on 23/10/15.
+//  Copyright © 2017 willpowell8. All rights reserved.
 //
-
 
 import PackageDescription
 
 let package = Package(
-    name: "LocalizationKit"
+    name: "LocalizationKit",
+    dependencies: [],
+    exclude: ["Tests"]
 )

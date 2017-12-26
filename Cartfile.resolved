@@ -1,0 +1,3 @@
+github "Quick/Nimble" "v7.0.3"
+github "Quick/Quick" "v1.2.0"
+github "socketio/socket.io-client-swift" "v11.1.3"

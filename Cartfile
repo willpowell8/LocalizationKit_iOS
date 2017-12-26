@@ -1,0 +1,2 @@
+github "nuclearace/Starscream" ~> 8.0.5
+github "socketio/socket.io-client-swift" ~> 11.1.3
