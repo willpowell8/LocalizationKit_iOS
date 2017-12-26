@@ -1,5 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 3.0.8 - added Carthage Support and restructured project
 ### 3.0.6 - fixes for inline editor for keyboard events
 ### 3.0.5 - added multiline inline editor
 ### 3.0.4 - fix warnings
