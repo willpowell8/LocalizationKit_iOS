@@ -13,7 +13,7 @@ extension UIBarButtonItem {
         Update UIBarButtonItem localization conditional on if title parameter has been set
      */
     override public func updateLocalisation() {
-        if let title = self.title, title.characters.count > 0 {
+        if let title = self.title, title.count > 0 {
             super.updateLocalisation();
         }
     }
