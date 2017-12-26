@@ -13,11 +13,21 @@ Localization Kit quickly and easily integrates into your app using Cocoapods. Th
 
 ## Installation
 
+### Using Cocoapods
+
 LocalizationKit is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 ```ruby
 pod "LocalizationKit"
 ```
+
+### Using Carthage
+
+```ruby
+github "willpowell8/LocalizationKit_iOS" ~> 3.0.8
+```
+
+## Setup
 
 Then go to https://www.localizationkit.com/app/ and create a new app on the left handside using your name. Then take the code generated currently in the url after #/app/...KEY HERE...
 
