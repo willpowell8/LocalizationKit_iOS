@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'LocalizationKit'
-    s.version          = '3.0.9'
+    s.version          = '3.0.10'
     s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
     s.description      = <<-DESC
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
     s.default_subspec = "Core"
     s.subspec "Core" do |ss|
-        ss.source_files = 'Sources/**/*'
+        ss.source_files = 'Sources/Classes/**/*'
         ss.ios.source_files = 'Sources/iOSClasses/**/*'
         ss.osx.source_files = 'Sources/OSXClasses/**/*'
         ss.framework  = "Foundation"
