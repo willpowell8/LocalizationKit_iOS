@@ -22,6 +22,7 @@ Pod::Spec.new do |s|
         ss.ios.source_files = 'Sources/iOSClasses/**/*'
         ss.osx.source_files = 'Sources/OSXClasses/**/*'
         ss.framework  = "Foundation"
+        ss.ios.framework  = 'UIKit'
     end
 
     s.dependency 'Socket.IO-Client-Swift', '~>11.1.3'
