@@ -69,7 +69,7 @@ public class Localization {
          core socket
      */
     static var socket:SocketIOClient?
-    //static var manager:SocketManager?
+    static var manager:SocketManager?
     
     /**
          App Key
@@ -499,9 +499,9 @@ public class Localization {
             print("Start Socket URL Incorrect")
             return
         }
-        //let manager = SocketManager(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])
-        //self.manager = manager
-        let socket = SocketIOClient(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])//manager.defaultSocket
+        let manager = SocketManager(socketURL: url, config: [.log(false), .compress, .path("/v2/socket.io")])
+        self.manager = manager
+        let socket = manager.defaultSocket
         socket.on("connect") { data, ack in
             self.joinLanguageRoom()
             let appRoom = "\((self.appKey)!)_app"
