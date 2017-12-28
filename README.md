@@ -25,7 +25,7 @@ pod "LocalizationKit" "~>3.0.12" // Swift 3.2
 ### Using Carthage
 
 ```ruby
-github "willpowell8/LocalizationKit_iOS" ~> 4.0.0 // Swift 4
+github "willpowell8/LocalizationKit_iOS" ~> 4.0.2 // Swift 4
 github "willpowell8/LocalizationKit_iOS" ~> 3.0.13 // Swift 3.2
 ```
 

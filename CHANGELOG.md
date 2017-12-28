@@ -1,5 +1,6 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 4.0.2 - added tests
 ### 4.0.0 - update to swift 4 merged to master
 ### 3.0.13 - objective c example version  and demo
 ### 3.0.12 - remove warnings from build caused by characters.count
