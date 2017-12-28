@@ -22,6 +22,7 @@
     [Localization availableLanguages:^(NSArray<Language *> * _Nonnull languages) {
         NSLog(@"Languages");
     }];
+    NSString *helloWorldStr = [Localization get:@"Hello.Label" alternate:@"Hello World"];
     return YES;
 }
 
