@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'LocalizationKit'
-    s.version          = '3.0.13'
+    s.version          = '3.0.14'
     s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
     s.description      = <<-DESC
@@ -24,6 +24,10 @@ Pod::Spec.new do |s|
         ss.framework  = "Foundation"
         ss.ios.framework  = 'UIKit'
     end
+
+    s.pod_target_xcconfig = {
+        'SWIFT_VERSION' => '3.2'
+    }
 
     s.dependency 'Socket.IO-Client-Swift', '~>11.1.3'
 
