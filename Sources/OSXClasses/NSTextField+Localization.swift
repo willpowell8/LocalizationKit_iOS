@@ -55,7 +55,7 @@
         }
         
         /// trigger field highlight
-        public func localizationHighlight() {
+        @objc public func localizationHighlight() {
             DispatchQueue.main.async(execute: {
                 // TODO SET HIGHLIGH
             })
