@@ -262,7 +262,6 @@ public class Localization {
         self.appKey = appKey
         initialLanguage();
         self.liveEnabled = live;
-        
     }
     
     /**

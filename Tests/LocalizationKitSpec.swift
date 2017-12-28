@@ -13,13 +13,11 @@ import Nimble
 class LocalizationKitSpec: QuickSpec {
 
     override func spec() {
-
         describe("LocalizationKitSpec") {
             it("works") {
                 //expect(LocalizationKit) == "LocalizationKit"
             }
         }
-
     }
 
 }
