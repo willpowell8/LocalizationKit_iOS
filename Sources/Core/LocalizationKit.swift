@@ -676,7 +676,7 @@ public class Localization {
         
         guard let localisation = loadedLanguageTranslations?[key] else {
             if liveEnabled && languageCode != nil && socket?.status == .connected {
-                self.loadedLanguageTranslations?[key] = key
+                self.loadedLanguageTranslations?[key] = alternate
                 if alternate != key && alternate != keyString {
                     self.sendMessage(type: "key:add", data: ["appuuid":appKey, "key":key, "language":buildLanguageCode, "raw":alternate])
                 }else{
