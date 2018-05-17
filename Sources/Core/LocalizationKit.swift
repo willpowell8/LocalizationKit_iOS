@@ -163,10 +163,10 @@ public class Localization {
          save the current selected language
      */
     private static func saveSelectedLanguageCode(){
-        if let language = self._language {
+        if let language = self._language, let appKey = self.appKey {
             let encodedData = NSKeyedArchiver.archivedData(withRootObject: language)
             let standard = UserDefaults.standard;
-            standard.set(encodedData, forKey: "\(self.appKey!)_\(storageLocation)");
+            standard.set(encodedData, forKey: "\(appKey)_\(storageLocation)");
             standard.synchronize()
         }
     }
@@ -176,7 +176,7 @@ public class Localization {
      */
     private static func loadSelectedLanguageCode(_ completion: @escaping (_ language:Language?) -> Swift.Void)->Swift.Void{
         let standard = UserDefaults.standard;
-        if let val = standard.data(forKey: "\(self.appKey!)_\(storageLocation)") {
+        if let appKey = self.appKey, let val = standard.data(forKey: "\(appKey)_\(storageLocation)") {
             if let storedLanguage = NSKeyedUnarchiver.unarchiveObject(with: val) as? Language {
                 return completion(storedLanguage)
             }
@@ -259,6 +259,11 @@ public class Localization {
         - Parameter live: should enable dynamic update
     */
     public static func start(appKey:String, live:Bool){
+        guard self.appKey != appKey else{
+            return
+        }
+        liveEnabled = false
+        self.loadedLanguageTranslations = nil
         self.appKey = appKey
         initialLanguage();
         self.liveEnabled = live;
@@ -350,17 +355,24 @@ public class Localization {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let urlString = Localization.server+"/v2/api/app/\(appKey)/language/\(language.key)"
-        let url = URL(string: urlString as String)
-        session.dataTask(with: url!) {
+        guard let url = URL(string: urlString as String)else{
+            return
+        }
+        session.dataTask(with: url) {
             (data, response, error) in
             if (response as? HTTPURLResponse) != nil {
+                guard let data = data else{
+                    return
+                }
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary
                     guard let jsonData = json?["data"] as? [AnyHashable:String] else{
                         return;
                     }
                     loadedLanguageTranslations = jsonData;
-                    saveLanguageToDisk(code: language.key, translation: self.loadedLanguageTranslations!);
+                    if let translations = self.loadedLanguageTranslations {
+                        saveLanguageToDisk(code: language.key, translation: translations);
+                    }
                     self.joinLanguageRoom()
                     NotificationCenter.default.post(name: Localization.ALL_CHANGE, object: self)
                     completion();
@@ -408,22 +420,27 @@ public class Localization {
             (data, response, error) in
             if (response as? HTTPURLResponse) != nil {
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
+                    guard let data = data else{
+                        //todo add error case
+                        return
+                    }
+                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary
                     guard let languages = json?["languages"] as? [[String:AnyHashable]] else{
                         return;
                     }
                     var languagesOutput = [Language]()
                     for i in 0..<languages.count {
-                        let languageKey = languages[i]["key"] as! String;
-                        var languageNameLocalized = languageKey
-                        var languageNames = [String:Any]()
-                        if let languageName = languages[i]["name"] as? [String:Any] {
-                            languageNames = languageName
-                            if let langCode = languageName[languageCode] as? String {
-                                languageNameLocalized = langCode
+                        if let languageKey = languages[i]["key"] as? String {
+                            var languageNameLocalized = languageKey
+                            var languageNames = [String:Any]()
+                            if let languageName = languages[i]["name"] as? [String:Any] {
+                                languageNames = languageName
+                                if let langCode = languageName[languageCode] as? String {
+                                    languageNameLocalized = langCode
+                                }
                             }
+                            languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames))
                         }
-                        languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames))
                     }
                     completion(languagesOutput)
                 } catch {
@@ -503,8 +520,10 @@ public class Localization {
         let socket = manager.defaultSocket
         socket.on("connect") { data, ack in
             self.joinLanguageRoom()
-            let appRoom = "\((self.appKey)!)_app"
-            sendMessage(type: "join", data: ["room":appRoom])
+            if let appKey = self.appKey {
+                let appRoom = "\(appKey)_app"
+                sendMessage(type: "join", data: ["room":appRoom])
+            }
             NotificationCenter.default.post(name: ALL_CHANGE, object: self)
         }
         socket.on("languages") {data,ack in
@@ -666,7 +685,10 @@ public class Localization {
             return alternate
         }
         let m = self.loadedLanguageTranslations
-        let keyString = self.languageCode != nil ? "\(self.languageCode!)-\(key)" : "NA-\(key)"
+        var keyString =  "NA-\(key)"
+        if let languageCode = self.languageCode {
+            keyString = "\(languageCode)-\(key)"
+        }
         if m == nil {
             if alternate.count == 0 && ifEmptyShowKey == true {
                 return keyString

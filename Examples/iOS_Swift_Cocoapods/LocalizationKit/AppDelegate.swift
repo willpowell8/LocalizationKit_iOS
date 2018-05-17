@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("\(str2)")
         // LOCALIZATION KIT START DEFINED HERE
         Localization.ifEmptyShowKey = true
-        Localization.start(appKey: "407f3581-648e-4099-b761-e94136a6628d", useSettings:true)
+        Localization.start(appKey: "0509b42d-d783-4084-8f91-aeaf0c94595a", useSettings:true)
         Localization.availableLanguages { (languages) in
             print("Languages");
         }

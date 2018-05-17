@@ -6,7 +6,7 @@
 
 Localization kit is a powerful to localize texts and translation management tool. I am a developer and invariably I get the questions 'Can you just change this text?' or 'Can you add another language?' I have designed this framework so you can manage these translations and texts without having to recompile, resubmit and without the need to use developers. Essentially take out all of the pain.
 
-![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/Localization.gif "Realtime iOS Localize your app")
+![alt text](https://raw.githubusercontent.com/willpowell8/LocalizationKit_iOS/master/page/LocalizationKit.gif "Realtime iOS Localize your app")
 
 ## How does it work
 Localization Kit quickly and easily integrates into your app using Cocoapods. Then it connects to services from [LocalizationKit.com](http://www.localizationkit.com/app/) which are free to use and manage. Then as you create items in your iOS app the text keys become available instantly in the online web UI. From there you can change the text and it is reflected within app in realtime (as you type any key).
