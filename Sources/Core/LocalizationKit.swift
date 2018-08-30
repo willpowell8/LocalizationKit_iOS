@@ -253,6 +253,16 @@ public class Localization {
         }
     }
     
+    public static func stop(){
+        self.appKey = nil
+        self.liveEnabled = false
+        self.socket = nil
+        self.manager = nil
+        self.allowInlineEdit = false
+        self.loadedLanguageTranslations = nil
+        NotificationCenter.default.removeObserver(self, name:  UserDefaults.didChangeNotification, object: nil)
+    }
+    
     /**
         Start Localization Service
         - Parameter appKey: API key
@@ -260,8 +270,10 @@ public class Localization {
     */
     public static func start(appKey:String, live:Bool){
         guard self.appKey != appKey else{
+            print("App Key already set")
             return
         }
+        stop()
         liveEnabled = false
         self.loadedLanguageTranslations = nil
         self.appKey = appKey
@@ -275,11 +287,17 @@ public class Localization {
         - Parameter useSettings: Use the settings bundle
     */
     public static func start(appKey:String, useSettings:Bool){
+        guard self.appKey != appKey else{
+            print("App key already set")
+            return
+        }
+        stop()
         self.appKey = appKey
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
+        if useSettings {
+            NotificationCenter.default.addObserver(self, selector: #selector(Localization.defaultsChanged),
                                                name: UserDefaults.didChangeNotification, object: nil)
-        defaultsChanged()
+            defaultsChanged()
+        }
         initialLanguage();
     }
     
@@ -360,10 +378,11 @@ public class Localization {
         }
         session.dataTask(with: url) {
             (data, response, error) in
+            guard  let data = data, error == nil else {
+                // TODO handle failed language load
+                return
+            }
             if (response as? HTTPURLResponse) != nil {
-                guard let data = data else{
-                    return
-                }
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary
                     guard let jsonData = json?["data"] as? [AnyHashable:String] else{
