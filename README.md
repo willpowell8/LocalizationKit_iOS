@@ -18,8 +18,8 @@ Localization Kit quickly and easily integrates into your app using Cocoapods. Th
 LocalizationKit is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 ```ruby
-pod "LocalizationKit", "~>4.0.3" // Swift 4
-pod "LocalizationKit", "~>3.0.12" // Swift 3.2
+pod "LocalizationKit" "~>4.0.3" # Swift 4
+pod "LocalizationKit" "~>3.0.12" # Swift 3.2
 ```
 
 ### Using Carthage
