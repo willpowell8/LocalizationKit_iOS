@@ -9,33 +9,41 @@
 import Foundation
 import SocketIO
 
+public enum LanguageDirection:String{
+    case rtl = "rtl"
+    case ltr = "ltr"
+    case unknown = "unknown"
+}
+
 public class Language:NSObject,NSCoding {
     public var localizedName:String = "";
     public var key:String = ""; // language code eg. en, zh-Hans
     public var localizedNames:[String:Any]? // localized language names
+    public var direction = LanguageDirection.unknown
     
-    init (localizedName:String, key:String, localizedNames:[String:Any]?){
+    init (localizedName:String, key:String, localizedNames:[String:Any]?, direction:LanguageDirection?){
         self.key = key;
         self.localizedName = localizedName
         self.localizedNames = localizedNames
     }
     
     required convenience public init?(coder decoder: NSCoder) {
-        if let localizedNameTemp = decoder.decodeObject(forKey: "localizedName") as? String {
-            let keyTemp = decoder.decodeObject(forKey: "key") as? String
-            if let localizedNamesTemp = decoder.decodeObject(forKey: "localizedNames") as? [String:String] {
-                self.init(localizedName: localizedNameTemp, key: keyTemp!, localizedNames: localizedNamesTemp)
-            }else{
-                self.init(localizedName: localizedNameTemp, key: keyTemp!, localizedNames: nil)
+        if let localizedNameTemp = decoder.decodeObject(forKey: "localizedName") as? String, let keyTemp = decoder.decodeObject(forKey: "key") as? String {
+            let localizedNamesTemp = decoder.decodeObject(forKey: "localizedNames") as? [String:String]
+            var direction = LanguageDirection.ltr
+            if let directionString = decoder.decodeObject(forKey: "direction") as? String, let newDirection = LanguageDirection.init(rawValue: directionString) {
+                direction = newDirection
             }
+            self.init(localizedName: localizedNameTemp, key: keyTemp, localizedNames: localizedNamesTemp, direction:direction)
         }else{
-            self.init(localizedName: "English", key: "en", localizedNames: nil)
+            self.init(localizedName: "English", key: "en", localizedNames: nil, direction:LanguageDirection.ltr)
         }
     }
     
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.localizedName, forKey: "localizedName")
         aCoder.encode(self.key, forKey: "key")
+        aCoder.encode(self.direction.rawValue, forKey: "direction")
         if let localizationNames = self.localizedNames {
             aCoder.encode(localizationNames, forKey: "localizedNames")
         }
@@ -431,7 +439,7 @@ public class Localization {
         }
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let urlString = Localization.server+"/api/app/\(appKey)/languages/"
+        let urlString = Localization.server+"/v2/api/app/\(appKey)/languages/"
         guard let url = URL(string: urlString as String) else{
             return
         }
@@ -458,7 +466,11 @@ public class Localization {
                                     languageNameLocalized = langCode
                                 }
                             }
-                            languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames))
+                            var direction = LanguageDirection.ltr
+                            if let directionString = languages[i]["direction"] as? String, let newDirection = LanguageDirection.init(rawValue: directionString) {
+                                direction = newDirection
+                            }
+                            languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames, direction:direction))
                         }
                     }
                     completion(languagesOutput)
