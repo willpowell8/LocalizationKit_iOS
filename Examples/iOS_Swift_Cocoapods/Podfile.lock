@@ -1,13 +1,13 @@
 PODS:
   - LocalizationKit (4.0.6):
     - LocalizationKit/Core (= 4.0.6)
-    - Socket.IO-Client-Swift (~> 13.1.0)
+    - Socket.IO-Client-Swift (~> 13.3.1)
   - LocalizationKit/Core (4.0.6):
-    - Socket.IO-Client-Swift (~> 13.1.0)
+    - Socket.IO-Client-Swift (~> 13.3.1)
   - MBProgressHUD (1.1.0)
-  - Socket.IO-Client-Swift (13.1.0):
+  - Socket.IO-Client-Swift (13.3.1):
     - Starscream (~> 3.0.2)
-  - Starscream (3.0.3)
+  - Starscream (3.0.6)
 
 DEPENDENCIES:
   - LocalizationKit (from `../../`)
@@ -24,10 +24,10 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  LocalizationKit: a73c385e7d14f97f89aab4ac5f94370fe8085db0
+  LocalizationKit: e2fceac18d48191420381eeb253bd682c3044b8d
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
-  Socket.IO-Client-Swift: b67a96d6a9e5f271bceb93e99779d2cf77c74868
-  Starscream: dfb1b3f39506717ee52b67fb48de0c8269504cbc
+  Socket.IO-Client-Swift: 79f8f85fa44881838175a20f9bd2c32bef2c9d37
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
 
 PODFILE CHECKSUM: 1e4fc8b55104956b48a3002a1ad7cc65e7af4204
 

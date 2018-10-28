@@ -69,7 +69,7 @@ extension UILabel{
             UIView.animate(withDuration: 0.4, animations: {
                 self.layer.backgroundColor = UIColor.red.cgColor
                 }, completion: { (okay) in
-                    UIView.animate(withDuration: 0.4, delay: 0.4, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                    UIView.animate(withDuration: 0.4, delay: 0.4, options: UIView.AnimationOptions.curveEaseInOut, animations: {
                         self.layer.backgroundColor = originalCGColor
                         }, completion: { (complete) in
                             
