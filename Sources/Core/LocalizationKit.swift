@@ -25,7 +25,7 @@ public class Language:NSObject,NSCoding {
         self.key = key;
         self.localizedName = localizedName
         self.localizedNames = localizedNames
-        self.direction = direction
+        self.direction = direction ?? .unknown
     }
     
     required convenience public init?(coder decoder: NSCoder) {
