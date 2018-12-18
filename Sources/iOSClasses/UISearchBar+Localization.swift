@@ -88,7 +88,7 @@ extension UISearchBar {
             let promptKey = "\(localizeKey).Prompt";
             if let prompt = self.prompt {
                 let languageString = Localization.get(promptKey, alternate:prompt)
-                if !languageString.isEmpty {
+                if !languageString.isEmpty, languageString != " ", languageString != promptKey {
                     self.prompt = languageString
                 }else{
                     self.prompt = nil
