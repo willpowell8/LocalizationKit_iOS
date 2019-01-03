@@ -1,5 +1,7 @@
 # LocalizationKit
 Here is a complete log of what has been changed in each version. Currently this library it iterating quickly to add features and functionality.
+### 4.2.5 - fix for primary selectd language fallback
+Now if the device has a language that is not specified it will fall back first to the primary language and then it will change to the language that is first in list if no primary language.
 ### 4.2.4 - upgrade to correct UISearchBar prompt setting to nil
 ### 4.2.0 - upgrade to swift 4.2
 ### 4.0.5 - removed force unwraps and resolved switching keys issue

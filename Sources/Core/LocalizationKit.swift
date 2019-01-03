@@ -20,6 +20,7 @@ public class Language:NSObject,NSCoding {
     public var key:String = ""; // language code eg. en, zh-Hans
     public var localizedNames:[String:Any]? // localized language names
     public var direction = LanguageDirection.unknown
+    public var isPrimary:Bool = false
     
     init (localizedName:String, key:String, localizedNames:[String:Any]?, direction:LanguageDirection?){
         self.key = key;
@@ -74,6 +75,10 @@ public class Localization {
     */
     public static var ifEmptyShowKey = false
     
+    /**
+        If the device language doesnt match any available and there are no primary languages take the first language in the list
+    */
+    public static var alwaysSelectLanguageIfAvailable = true
     /**
          core socket
      */
@@ -219,7 +224,21 @@ public class Localization {
                     }
                 }
             }
-            return completion(nil)
+            // Select primary language
+            let primaryLanguage = languages.first(where: { (language) -> Bool in
+                return language.isPrimary
+            })
+            guard let primaryLang = primaryLanguage else {
+                // Fall back to first available language
+                if self.alwaysSelectLanguageIfAvailable {
+                    guard let fallbackLanguage = languages.first else {
+                        return completion(nil)
+                    }
+                    return completion(fallbackLanguage)
+                }
+                return completion(nil)
+            }
+            return completion(primaryLang)
         }
     }
     
@@ -456,24 +475,28 @@ public class Localization {
                     guard let languages = json?["languages"] as? [[String:AnyHashable]] else{
                         return;
                     }
-                    var languagesOutput = [Language]()
-                    for i in 0..<languages.count {
-                        if let languageKey = languages[i]["key"] as? String {
-                            var languageNameLocalized = languageKey
-                            var languageNames = [String:Any]()
-                            if let languageName = languages[i]["name"] as? [String:Any] {
-                                languageNames = languageName
-                                if let langCode = languageName[languageCode] as? String {
-                                    languageNameLocalized = langCode
-                                }
-                            }
-                            var direction = LanguageDirection.ltr
-                            if let directionString = languages[i]["direction"] as? String, let newDirection = LanguageDirection.init(rawValue: directionString) {
-                                direction = newDirection
-                            }
-                            languagesOutput.append(Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames, direction:direction))
+                    let languagesOutput = languages.compactMap({ (language) -> Language? in
+                        guard let languageKey = language["key"] as? String else {
+                            return nil
                         }
-                    }
+                        var languageNameLocalized = languageKey
+                        var languageNames = [String:Any]()
+                        if let languageName = language["name"] as? [String:Any] {
+                            languageNames = languageName
+                            if let langCode = languageName[languageCode] as? String {
+                                languageNameLocalized = langCode
+                            }
+                        }
+                        var direction = LanguageDirection.ltr
+                        if let directionString = language["direction"] as? String, let newDirection = LanguageDirection.init(rawValue: directionString) {
+                            direction = newDirection
+                        }
+                        let lang = Language(localizedName: languageNameLocalized, key: languageKey, localizedNames:languageNames, direction:direction)
+                        if let isPrimary = language["primary"] as? Bool {
+                            lang.isPrimary = isPrimary
+                        }
+                        return lang
+                    })
                     completion(languagesOutput)
                 } catch {
                     print("error serializing JSON: \(error)")
