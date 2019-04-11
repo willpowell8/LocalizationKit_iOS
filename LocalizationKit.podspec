@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'LocalizationKit'
-    s.version          = '5.0.0'
+    s.version          = '5.0.1'
     s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
     s.description      = <<-DESC
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
     s.social_media_url = 'https://twitter.com/willpowelluk'
 
     s.ios.deployment_target = '8.0'
-    s.osx.deployment_target = '10.10'
+    s.osx.deployment_target = '10.11'
 
     s.default_subspec = "Core"
     s.subspec "Core" do |ss|
