@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     @IBAction func changeLanguage(_ sender:AnyObject){
         let localizedString = "Select Language".localize
-        let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alertController = UIAlertController(title: localizedString!, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
         print("\(localizedString!)");
         Localization.availableLanguages { (languages) in
             
