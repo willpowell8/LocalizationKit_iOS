@@ -45,10 +45,9 @@ extension UIBarItem {
     
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
-        
     }
     
     /// trigger field highlight
@@ -70,15 +69,15 @@ extension UIBarItem {
     /// update the localization
     @objc public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
-            if self.title == nil {
+            if title == nil {
                 let languageString = Localization.get(localizeKey, alternate:self.LocalizeKey!)
-                self.title = languageString
+                title = languageString
             }else{
                 let languageString = Localization.get(localizeKey, alternate:self.title!)
-                self.title = languageString
+                title = languageString
             }
         } else {
-            self.title = ""
+            title = ""
         }
     }
 }

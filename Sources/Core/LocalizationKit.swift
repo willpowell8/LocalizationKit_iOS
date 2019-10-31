@@ -177,7 +177,7 @@ public class Localization {
          save the current selected language
      */
     private static func saveSelectedLanguageCode(){
-        if let language = self._language, let appKey = self.appKey {
+        if let language = _language, let appKey = self.appKey {
             let encodedData = NSKeyedArchiver.archivedData(withRootObject: language)
             let standard = UserDefaults.standard;
             standard.set(encodedData, forKey: "\(appKey)_\(storageLocation)");
@@ -204,7 +204,7 @@ public class Localization {
     
     private static func languageFromAvailableLanguages(languagecode:String, completion: @escaping (_ language:Language?) -> Swift.Void){
         let current = languagecode
-        self.availableLanguages { (languages) in
+        availableLanguages { (languages) in
             if let language = findLanguage(languages: languages, languageKey: current) {
                 return completion(language)
             }
@@ -282,12 +282,12 @@ public class Localization {
     }
     
     public static func stop(){
-        self.appKey = nil
-        self.liveEnabled = false
-        self.socket = nil
-        self.manager = nil
-        self.allowInlineEdit = false
-        self.loadedLanguageTranslations = nil
+        appKey = nil
+        liveEnabled = false
+        socket = nil
+        manager = nil
+        allowInlineEdit = false
+        loadedLanguageTranslations = nil
         NotificationCenter.default.removeObserver(self, name:  UserDefaults.didChangeNotification, object: nil)
     }
     
@@ -303,10 +303,10 @@ public class Localization {
         }
         stop()
         liveEnabled = false
-        self.loadedLanguageTranslations = nil
+        loadedLanguageTranslations = nil
         self.appKey = appKey
         initialLanguage();
-        self.liveEnabled = live;
+        liveEnabled = live;
     }
     
     /**
@@ -341,7 +341,7 @@ public class Localization {
     @objc public static func defaultsChanged(){
         let userDefaults = UserDefaults.standard
         let val = userDefaults.bool(forKey: "live_localization");
-        if val == true, self.liveEnabled == false, let language = self.language {
+        if val == true, liveEnabled == false, let language = self.language {
             self.loadLanguage(language);
         }
         liveEnabled = val;
@@ -685,7 +685,7 @@ public class Localization {
      - Parameter language: language object
      */
     public static func setLanguage(_ language:Language){
-        self.setLanguage(language) {
+        setLanguage(language) {
             return;
         }
     }
@@ -697,9 +697,9 @@ public class Localization {
      */
     public static func setLanguage(_ languageNew:Language, _ completion: @escaping () -> Swift.Void){
         if language?.key != languageNew.key {
-            self.leaveLanguageRoom();
+            leaveLanguageRoom();
             _language = languageNew
-            self.loadLanguage(language: languageNew, {
+            loadLanguage(language: languageNew, {
                 completion();
             })
         }else{

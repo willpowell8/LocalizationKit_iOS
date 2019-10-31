@@ -47,8 +47,8 @@ extension UITextField {
     
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
         
     }
@@ -73,12 +73,12 @@ extension UITextField {
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             let placeHolderKey = "\(localizeKey).Placeholder";
-            if let placeholder = self.placeholder {
-                let languageString = Localization.get(placeHolderKey, alternate:placeholder)
-                self.placeholder = languageString
+            if let p = placeholder {
+                let languageString = Localization.get(placeHolderKey, alternate:p)
+                placeholder = languageString
             }else{
                 let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
-                self.placeholder = languageString
+                placeholder = languageString
             }
         }
     }

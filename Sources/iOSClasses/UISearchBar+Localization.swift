@@ -52,8 +52,8 @@ extension UISearchBar {
     
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
     }
     
@@ -77,28 +77,28 @@ extension UISearchBar {
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
             let placeHolderKey = "\(localizeKey).Placeholder";
-            if let placeholder = self.placeholder {
-                let languageString = Localization.get(placeHolderKey, alternate:placeholder)
-                self.placeholder = languageString
+            if let p = placeholder {
+                let languageString = Localization.get(placeHolderKey, alternate:p)
+                placeholder = languageString
             }else{
                 let languageString = Localization.get(placeHolderKey, alternate:placeHolderKey)
-                self.placeholder = languageString
+                placeholder = languageString
             }
             
             let promptKey = "\(localizeKey).Prompt";
-            if let prompt = self.prompt {
-                let languageString = Localization.get(promptKey, alternate:prompt)
+            if let pt = self.prompt {
+                let languageString = Localization.get(promptKey, alternate:pt)
                 if !languageString.isEmpty, languageString != " ", languageString != promptKey {
-                    self.prompt = languageString
+                    prompt = languageString
                 }else{
-                    self.prompt = nil
+                    prompt = nil
                 }
             }else{
                 let languageString = Localization.get(promptKey, alternate:promptKey)
                 if !languageString.isEmpty {
-                    self.prompt = languageString
+                    prompt = languageString
                 }else{
-                    self.prompt = nil
+                    prompt = nil
                 }
             }
         }

@@ -56,21 +56,24 @@ extension UILabel{
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
         //self.morphingEnabled = true
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
         
     }
     
     /// trigger field highlight
     @objc public func localizationHighlight() {
-        DispatchQueue.main.async(execute: {
-            let originalCGColor = self.layer.backgroundColor
+        DispatchQueue.main.async(execute: { [weak self] in
+            guard let _ = self else {
+                return;
+            }
+            let originalCGColor = self?.layer.backgroundColor
             UIView.animate(withDuration: 0.4, animations: {
-                self.layer.backgroundColor = UIColor.red.cgColor
+                self?.layer.backgroundColor = UIColor.red.cgColor
                 }, completion: { (okay) in
                     UIView.animate(withDuration: 0.4, delay: 0.4, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-                        self.layer.backgroundColor = originalCGColor
+                        self?.layer.backgroundColor = originalCGColor
                         }, completion: { (complete) in
                             
                     })
@@ -81,16 +84,16 @@ extension UILabel{
     /// update the localization
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
-            if let str = self.text {
+            if let str = text {
                 let languageString = Localization.get(localizeKey, alternate:str)
-                self.text = languageString
+                text = languageString
             }else{
                 let languageString = Localization.get(localizeKey, alternate:localizeKey)
-                self.text = languageString
+                text = languageString
             }
             
         } else {
-            self.text = ""
+            text = ""
         }
     }
 
@@ -104,7 +107,7 @@ extension UILabel{
             self.isUserInteractionEnabled = true
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(inlineEditorGestureLongPress(_:)))
             longPressRecognizer.accessibilityLabel = "LONG_LOCALIZATION"
-            self.addGestureRecognizer(longPressRecognizer)
+            addGestureRecognizer(longPressRecognizer)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(inlineEditStateUpdate), name: Localization.INLINE_EDIT_CHANGED, object: nil)
     }

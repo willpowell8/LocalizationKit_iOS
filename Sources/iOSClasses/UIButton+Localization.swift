@@ -50,8 +50,8 @@ extension UIButton {
     
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
         
     }
@@ -77,11 +77,11 @@ extension UIButton {
     */
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
-            if let normalText = self.title(for: .normal), normalText.count > 0 {
+            if let normalText = title(for: .normal), normalText.count > 0 {
                 let normalKey = "\(localizeKey).Normal"
                 let languageString = Localization.get(normalKey, alternate:normalText)
-                if self.title(for: .normal) != languageString {
-                    self.setTitle(languageString, for: .normal);
+                if title(for: .normal) != languageString {
+                    setTitle(languageString, for: .normal);
                 }
             }
         }

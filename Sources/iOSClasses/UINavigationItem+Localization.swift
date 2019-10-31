@@ -48,8 +48,8 @@ extension UINavigationItem {
     
     /// update localization from notification on main thread
     @objc private func updateLocalizationFromNotification() {
-        DispatchQueue.main.async(execute: {
-            self.updateLocalisation()
+        DispatchQueue.main.async(execute: { [weak self] in
+            self?.updateLocalisation()
         })
         
     }
@@ -73,15 +73,15 @@ extension UINavigationItem {
     /// update the localization
     public func updateLocalisation() {
         if let localizeKey = LocalizeKey, !localizeKey.isEmpty {
-            if let title = self.title {
-                let languageString = Localization.get(localizeKey, alternate:title)
-                self.title = languageString
+            if let t = title {
+                let languageString = Localization.get(localizeKey, alternate:t)
+                title = languageString
             }else{
                 let languageString = Localization.get(localizeKey, alternate:"")
-                self.title = languageString
+                title = languageString
             }
         } else {
-            self.title = ""
+            title = ""
         }
     }
 }

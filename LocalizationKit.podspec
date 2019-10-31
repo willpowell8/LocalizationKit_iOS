@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'LocalizationKit'
-    s.version          = '5.0.2'
+    s.version          = '5.0.3'
     s.summary          = 'iOS Localization made easy. Localize texts and manage your translations in realtime to support multi lingual deployment.'
 
     s.description      = <<-DESC
